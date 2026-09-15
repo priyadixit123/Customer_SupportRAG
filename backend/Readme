@@ -1,0 +1,252 @@
+# HolidayBreakz AI Customer Support Assistant
+
+An AI-powered customer support assistant for HolidayBreakz built using RAG (Retrieval-Augmented Generation), ChromaDB, LangChain, FastAPI, React, and OpenRouter.
+
+The assistant retrieves relevant information from the HolidayBreakz knowledge base before generating an answer, helping keep responses grounded in company-provided information and reducing hallucinations.
+
+----------------------------------------------------------------------------------------
+
+## Project Overview
+
+The HolidayBreakz AI Assistant is designed to answer customer-support questions related to:
+
+- HolidayBreakz services
+- Holiday packages
+- Booking information
+- Booking cancellation
+- Refund information
+- Customer support
+- Company policies available in the knowledge base
+
+The system follows a RAG-based architecture:
+
+
+Customer
+   ↓
+React Chat Interface
+   ↓
+FastAPI Backend
+   ↓
+AI Agent
+   ↓
+RAG Retriever
+   ↓
+ChromaDB
+   ↓
+Relevant Knowledge Base Chunks
+   ↓
+OpenRouter LLM
+   ↓
+Generated Answer
+   ↓
+Customer
+
+-------------------------------------------------------------------------------------------
+##Features
+AI Customer Support
+The chatbot can answer customer questions using information retrieved from the HolidayBreakz knowledge base.
+
+RAG Pipeline
+The application uses Retrieval-Augmented Generation to retrieve relevant company information before sending context to the LLM.
+
+Vector Search
+Knowledge-base content is converted into embeddings and stored in ChromaDB for semantic search.
+
+OpenRouter Integration
+OpenRouter is used as the LLM API layer, allowing the application to work with supported AI models through a unified API.
+
+FastAPI Backend
+FastAPI provides REST APIs for communication between the React frontend and AI backend.
+
+React Chat Interface
+The frontend provides a travel-agent-style floating chatbot interface.
+
+Voice Input
+The frontend supports browser-based speech recognition where supported by the browser.
+
+Text-to-Speech
+AI responses can be spoken using the browser's speech synthesis functionality.
+
+Session ID
+The frontend generates a session ID for each chat session, allowing the backend architecture to support conversational state in future versions.
+Grounded Responses
+The assistant is instructed not to invent information that is not available in the HolidayBreakz knowledge base.
+----------------------------------------------------------------------------------------
+
+## RAG Architecture
+
+The RAG pipeline consists of several steps.
+
+Step 1 — Knowledge Base
+Company information is stored in:
+backend/documents/knowledge_base.txt
+
+Step 2 — Document Loading
+The knowledge base is loaded using LangChain's document loader.
+
+Step 3 — Text Chunking
+The document is divided into smaller chunks.
+Current configuration:
+chunk_size=700
+chunk_overlap=100
+
+This makes the document easier to search semantically.
+
+Step 4 — Embeddings
+Each text chunk is converted into a numerical vector representation using an embedding model.
+
+Conceptually:
+"How can I cancel my booking?"
+              ↓
+        Embedding Model
+              ↓
+     Numerical Vector
+
+Step 5 — ChromaDB
+The embeddings are stored in ChromaDB.
+ChromaDB
+│
+├── Chunk 1 → Vector
+├── Chunk 2 → Vector
+├── Chunk 3 → Vector
+├── ...
+└── Chunk N → Vector
+
+Step 6 — Retrieval
+When a customer asks a question, the system searches ChromaDB for the most relevant information.
+Current configuration retrieves:
+k=4
+
+meaning the system attempts to retrieve the top 4 relevant chunks.
+
+Step 7 — LLM Generation
+The retrieved information is passed to the LLM through OpenRouter.
+
+The model receives:
+HolidayBreakz Knowledge
+        +
+Customer Question
+        ↓
+      LLM
+        ↓
+    Answer
+-------------------------------------------------------------------------------------------------
+
+## Technologies Used
+Backend
+- Python
+- FastAPI
+- Uvicorn
+- LangChain
+- ChromaDB
+- OpenRouter
+- Pydantic
+Frontend
+- React
+- Vite
+- JavaScript
+- CSS
+- Browser Speech Recognition API
+- Browser Speech Synthesis API
+
+AI / RAG
+- Retrieval-Augmented Generation
+- Text embeddings
+- Vector similarity search
+- Large Language Models
+- Semantic retrieval
+
+------------------------------------------------------------------------------------------------------
+## Installation
+
+1. Clone the Repository
+git clone https://github.com/priyadixit123/Customer_SupportRAG.git
+cd Customer_SupportRAG
+
+ Backend Setup
+Go to the backend directory:
+cd backend
+
+Create a virtual environment:
+python -m venv venv
+
+Activate it on Windows:
+venv\Scripts\activate
+
+Install dependencies:
+pip install -r requirements.txt
+
+## Environment Variables
+Create:
+backend/.env
+Add:
+OPENROUTER_API_KEY=your_openrouter_api_key
+OPENROUTER_MODEL=openai/gpt-4o-mini
+CHROMA_PATH=./chroma_db
+Never commit your real API key to GitHub.
+
+Add .env to .gitignore:
+.env
+venv/
+__pycache__/
+chroma_db/
+--------------------------------------------------------------------------------
+## Build the RAG Database
+From the backend directory:
+python rag/ingest.py
+The ingestion process:
+
+
+knowledge_base.txt
+        ↓
+Document Loader
+        ↓
+Text Splitter
+        ↓
+Embeddings
+        ↓
+ChromaDB
+
+
+After successful ingestion, the Chroma vector database will be available in:
+
+backend/chroma_db/
+Start the Backend
+From:
+
+backend/
+run:
+uvicorn main:app --reload --port 8000
+Backend:
+http://127.0.0.1:8000
+FastAPI documentation:
+http://127.0.0.1:8000/docs
+Health check:
+http://127.0.0.1:8000/health
+
+
+Frontend Setup
+Open another terminal.
+Go to:
+cd frontend
+Install dependencies:
+npm install
+Start the React development server:
+npm run dev
+Vite will provide a local URL, normally similar to:
+http://localhost:5173/
+Open it in your browser.
+
+-------------------------------------------------------------------------------
+API Flow
+The frontend sends a request to:
+POST /chat
+Example request:
+{
+  "message": "How can I cancel my HolidayBreakz booking?",
+  "session_id": "example-session-id"
+}
+Example response:
+{
+  "answer": "AI-generated answer based on the HolidayBreakz knowledge base."
+  }
