@@ -1,0 +1,316 @@
+
+Ancillaries Knowledge Base
+Seats • Baggage • Meals • Cancellation Protection • Refund Shield
+
+
+How to use this document:
+Each ancillary is explained as a customer-facing knowledge module. The chatbot should use the airline/booking provider's live terms whenever a fee, allowance, eligibility rule, deadline or availability is itinerary-specific. The supplied policy is used for the core Seat, Meal and Baggage rules; Cancellation Protection and Refund Shield are described as generic product categories because their exact coverage differs by provider.
+
+
+
+1. SEAT ANCILLARY
+Seat selection or seat preference added to a flight booking.
+What is a Seat Ancillary?
+A seat ancillary is an optional service that allows a passenger to request or select a preferred seat for a flight. Examples include a window seat, aisle seat, front-row seat, extra-legroom seat or another available seat shown by the airline. A seat request should not be treated as guaranteed unless the airline has actually confirmed the seat assignment.
+What does it include / not include?
+
+What it may include: 
+• Window, aisle or middle-seat preference.
+• Specific seat number when seat-map selection is supported.
+• Standard, preferred, front-cabin or extra-legroom seats where offered.
+• Seat selection for one or more eligible flight segments.
+• Airline confirmation when the connected booking system provides it.	
+
+What it does not automatically include
+• A guaranteed seat solely because a preference was submitted.
+• A guaranteed upgrade to a higher cabin.
+• Automatic seat selection for every flight/airline in a multi-carrier itinerary.
+• Free seat selection when the airline charges for that seat.
+• Refundability of a seat fee unless the applicable airline/provider terms allow it.
+
+How can a passenger get a seat while booking?
+1. Select the flight and enter passenger details.
+2. Open the Seat Selection or Add-ons section, if available.
+3. Choose a seat from the seat map or select a preference such as window or aisle.
+4. Review the seat charge, if any, before payment.
+5. Complete payment and check the booking confirmation for the seat status.
+
+How can a passenger get a seat after the ticket is already booked?
+1. Open Manage Booking / My Trips on the booking website or airline website.
+2. Enter the booking reference/PNR and passenger surname.
+3. Open Seat Selection and choose an available seat.
+4. Pay any applicable seat fee.
+5. If online seat selection is unavailable, contact the airline or booking support. The airline should be contacted before departure to confirm a special seat request.
+
+How can a seat be changed or removed?
+A passenger may be able to change a seat through Manage Booking or directly with the airline, subject to seat availability and the airline's rules. If the customer wants the seat ancillary removed, the chatbot should first check whether the seat is merely a free preference or a paid seat. Removing a paid seat does not automatically mean the seat fee will be refunded. If the ticket is cancelled, the seat ancillary's refund treatment should be checked separately from the airfare.
+
+Charges, refund and important conditions:
+•	Seat prices can vary by airline, route, cabin, seat type and flight segment.
+•	The supplied policy states that special seat requests are requests only and a particular seat is not guaranteed.
+•	Any service fee charged by the booking provider for making a special request may be non-refundable once the service has been rendered.
+•	The airline may change a seat for operational or safety reasons.
+•	The chatbot should never invent a seat price or state that a seat is confirmed without a confirmation source.
+
+Market-wise Seat Price (Per Passenger, Per Flight Segment):
+Seat Type	US Market ($ USD)	UK Market (£ GBP)	Canada Market (C$ CAD)
+Window Seat	$25	£15	C$30
+Aisle Seat	$25	£15	C$30
+Middle Seat	$20	£14	C$25
+
+Assignment benchmark price: use these as fixed chatbot database values. Actual airline seat prices can vary by route, fare, seat row and availability.
+
+
+2. BAGGAGE ANCILLARY
+Additional baggage allowance or baggage-related service added to a flight.
+
+What is a Baggage Ancillary?
+A baggage ancillary is an optional baggage service purchased in addition to the baggage already included in the passenger's fare. It can include an additional checked bag, extra weight, or another baggage option offered by the airline. The exact free allowance and additional-baggage charge depend on the airline, route, cabin, fare type, bag size and bag weight.
+What does it include / not include?
+What it may include:	
+• Prepaid additional checked baggage where offered.
+• Extra baggage pieces above the included allowance.
+• Additional weight where the airline sells weight-based baggage.
+• Baggage allowance attached to a specific passenger/segment.
+• Airline-specific excess baggage options.	
+
+What it does not automatically include :
+• Unlimited baggage.
+• Automatic acceptance of overweight or oversized baggage.
+• Special items such as sports equipment, musical instruments or pets unless specifically covered.
+• The same baggage rules across all airlines in a connecting itinerary.
+• A fixed universal baggage fee.
+
+How can a passenger add baggage while booking?
+1. Check the fare's included baggage allowance.
+2. Open the Baggage or Add-ons section during booking.
+3. Choose the required number of bags or additional weight, where available.
+4. Review size/weight limits and the applicable fee.
+5. Pay for the baggage and retain the confirmation.
+
+How can baggage be added after the ticket is already booked?
+1. Open Manage Booking / My Trips using the booking reference.
+2. Select Add Baggage or Additional Services.
+3. Choose the available baggage option for the passenger and flight segment.
+4. Pay the displayed fee and confirm that the baggage is added.
+5. If the booking platform cannot add baggage, use the operating airline's Manage Booking page or contact the airline.
+
+How can baggage be removed?
+If baggage was added but is no longer required, the passenger can request removal through the original booking channel or airline. However, purchased baggage is often governed by separate ancillary conditions, so removal does not automatically create a refund. The chatbot should check the applicable baggage-refund rule before confirming any refund.
+Connecting-flight baggage policy
+When two or more airlines are involved, the passenger may have to reclaim baggage at the connecting airport and check it in again. If baggage is above the permitted allowance, each airline may assess its own excess baggage fee. The passenger should confirm through-check rules at check-in, especially on separate tickets or multi-airline itineraries.
+Charges, refund and important conditions
+•	The supplied policy gives an indicative checked-baggage fee range of about USD 15 to USD 200 or more per bag depending on size and weight; this is not a guaranteed current price.
+•	Many airlines charge even for the first checked bag on some fares.
+•	Baggage fees are generally paid to the airline for the service.
+•	Actual allowance, dimensions, weight and price must come from current airline-specific data.
+•	Overweight, oversized and excess-piece charges can be separate.
+•	The chatbot should ask for airline, route/fare and passenger baggage details when an exact answer is required.
+
+Market-wise Baggage Price (Per Passenger, Each Way)
+Baggage Type: 	
+Carry-on Bag	   US Market $0	 UK Market £0	 Canada Market C$0
+1st Checked Bag	US Market $40	 UK Market £35	 Canada Market C$50
+2nd Checked Bag	US Market $45	 UK Market £55	 Canada Market C$60
+Assignment benchmark price: carry-on is shown as $0/£0/C$0 when included within the standard cabin allowance. Basic/light fares may charge separately; checked-bag pricing varies by airline and fare.
+
+
+3. MEAL ANCILLARY
+Standard or special meal preference requested for an eligible flight.
+What is a Meal Ancillary?
+A meal ancillary allows a passenger to purchase a meal or request a special meal for a flight where the airline offers meal service. Special meal requests may include vegetarian, vegan, child, diabetic, gluten-free, halal, kosher or other airline-supported options. The supplied policy makes clear that a meal request is not guaranteed.
+What does it include / not include?
+What it may include:
+• Standard paid meal where the airline sells onboard meals.
+• Special dietary meal request where supported.
+• Meal selection for an eligible passenger and flight segment.
+• Pre-order options shown by the airline/booking platform.	
+
+What it does not automatically include:
+• A guarantee that the requested meal will be loaded on the aircraft.
+• Every dietary preference or allergy requirement.
+• A meal on flights where the airline does not offer meal service.
+• Automatic meal transfer to a changed flight without reconfirmation.
+• A refund merely because the passenger decides not to consume the meal.
+
+How can a passenger add a meal while booking?
+1. Open Meals / Special Requests / Add-ons during booking.
+2. Choose an available meal or special-meal preference.
+3. Review any applicable charge.
+4. Submit the request and complete payment if required.
+5. Check the confirmation and reconfirm with the airline before departure when the meal is important.
+
+How can a meal be added after the ticket is already booked?
+1. Open Manage Booking using the booking reference and passenger surname.
+2. Look for Meals, Special Meals or Special Requests.
+3. Choose an available meal for each eligible flight segment.
+4. Submit the request before the airline's applicable cut-off time.
+5. If the option is unavailable online, contact the airline directly. The chatbot should not invent a cut-off time because it varies by airline.
+
+How can a meal be changed or removed?
+A meal request may be changed or removed through Manage Booking or by contacting the airline, provided the request is still within the airline's modification window. If the meal was purchased, refund eligibility depends on the airline/provider's ancillary terms. A special meal request should be reconfirmed after a flight change.
+Charges, refund and important conditions
+•	Meal availability varies by airline, route, cabin and flight duration.
+•	Special meals may require advance notice.
+•	The supplied policy states that meal requests are requests only and are not guaranteed.
+•	A booking-provider service fee charged for making a special request may be non-refundable after the service is rendered.
+•	For allergies or strict dietary needs, the chatbot should avoid guaranteeing an allergen-free environment and recommend confirmation with the airline.
+
+Market-wise Meal Price (Per Passenger, Per Flight Segment)
+
+Ancillary Pre-ordered Meal:	US Market $12	 UK Market £12	 Canada Market C$15
+Assignment benchmark price for a standard pre-ordered meal. Special meals may be complimentary on some full-service airlines or differently priced by carrier.
+
+
+4. CANCELLATION PROTECTION
+Optional protection that may reduce eligible financial loss when a passenger cancels under the product's stated terms.
+
+What is Cancellation Protection?
+Cancellation Protection is an optional paid add-on offered by some airlines or travel platforms. Its purpose is to provide additional cancellation benefits beyond the normal fare rules. There is no single universal Cancellation Protection product: some products cover only specified events such as illness, while others reimburse eligible cancellation penalties up to a limit. Therefore, the chatbot must retrieve the exact terms attached to the customer's booking before stating what is covered.
+
+What does it include / not include?
+What it may include:	
+• Eligible cancellation costs or penalties defined by the purchased plan.
+• Covered reasons specifically listed in the product terms.
+• A claim/reimbursement process where required.
+• Coverage limits stated at the time of purchase.	
+
+
+What it does not automatically include:
+• Automatic cancellation for any reason unless the plan explicitly says so.
+• Automatic refund of the protection fee itself.
+• Hotels, cars, seats, baggage, meals or other ancillaries unless expressly included.
+• Events or circumstances excluded by the product terms.
+• A guarantee of payment before eligibility and evidence are reviewed.
+
+How can a passenger buy Cancellation Protection?
+1. Select an eligible flight.
+2. Review the Cancellation Protection option shown during checkout or in Add-ons.
+3. Read the coverage, exclusions, claim requirements and refund limits.
+4. Add the protection and pay the separate fee/premium.
+5. Keep the booking confirmation and protection terms.
+
+
+Can it be added after the ticket is already booked?
+This depends entirely on the provider. Some products can only be purchased during the original booking, while some providers allow a short post-purchase window. For example, Norwegian states that its Cancellation Protection cannot be added to an existing booking, while Icelandair publishes a limited post-purchase option on some pages. For a production chatbot, the correct response is to check the specific product rule rather than assume it can be added later.
+
+How can Cancellation Protection be removed?
+If the customer wants to remove the protection, the chatbot should check whether the provider permits cancellation of the add-on. Protection fees are commonly non-refundable after purchase, but the exact rule must come from the product terms. Removing or cancelling the underlying flight is a separate action from cancelling the protection product.
+
+How does a passenger use it?
+1. Cancel the flight within the deadline required by the airline/protection provider.
+2. Open the protection claim or reimbursement process.
+3. Select the covered reason for cancellation.
+4. Provide the requested documents/evidence, if the product requires them.
+5. Wait for the provider to assess eligibility and process any approved reimbursement.
+
+Market-wise Cancellation Protection Price (Per Passenger, Per Booking)
+Ancillary:
+Cancellation Protection	  US Market $20	UK Market £15	Canada Market C$25
+Assignment benchmark price. Cancellation Protection is provider-specific, so production pricing should be retrieved from the seller/product selected at checkout.
+
+
+5. REFUND SHIELD / REFUNDABLE BOOKING
+Optional refund-protection service under which eligible cancellations may qualify for a refund according to defined refundable terms.
+
+What is Refund Shield?
+Refund Shield, sometimes presented as a Refundable Booking upgrade, is an optional protection product offered by certain travel sellers/providers. It is separate from the airline's standard fare refund rules. Depending on the provider, the customer may submit a refund request when a listed qualifying event prevents travel. Some providers expressly describe Refund Shield as a cancellation protection service rather than travel insurance.
+
+What does it include / not include?
+What it may include:
+• Refund consideration for qualifying reasons listed in the Refundable Terms.
+• A defined online refund-request/claim process.
+• Assessment of supporting evidence where required.
+• Refund up to the applicable booking amount/plan limit when approved.	
+
+What it does not automatically include:
+• A guaranteed refund for every cancellation.
+• Automatic coverage for a simple change of mind unless explicitly listed.
+• Automatic refund of the Refund Shield fee.
+• Amounts or ancillary services excluded by the specific terms.
+• Approval without required evidence when the terms require documentation.
+
+How can a passenger add Refund Shield?
+1. Choose an eligible flight/booking.
+2. Select Refund Shield, Refundable Booking or the equivalent option during checkout when offered.
+3. Review the Refundable Terms, qualifying reasons, exclusions, evidence requirements and maximum refund.
+4. Pay the additional fee and complete the booking.
+5. Keep the confirmation email because it may contain the link required to submit a future refund request.
+
+Can Refund Shield be added after the ticket is already booked?
+Often it cannot be added after ticket issuance because eligibility is determined at the time of purchase. However, this is provider-specific. The chatbot should check the booking's Refund Shield terms and should not offer the product retroactively unless the provider explicitly permits it.
+
+How can Refund Shield be removed?
+The ability to remove or cancel Refund Shield depends on the provider's terms. Some sellers state that the Refund Shield fee is non-refundable. The chatbot should therefore verify whether a cooling-off period or cancellation right exists before confirming removal or a refund of the add-on fee.
+
+How does a passenger request a refund?
+1. Open the Refundable Booking / Refund Shield link supplied in the booking confirmation or provider portal.
+2. Enter the booking reference and passenger details requested by the provider.
+3. Confirm that the booking has been cancelled/postponed as required by the terms.
+4. Choose the qualifying reason and review the applicable Refundable Terms.
+5. Upload supporting evidence when required.
+6. Submit the request for assessment. The provider decides whether the request meets the product terms.
+Examples of reasons that may be covered
+
+Coverage differs by provider, but published Refund Shield terms can include events such as illness or injury, family or home emergencies, transport disruption, certain workplace events, jury service, pregnancy complications, theft of documents and other specifically defined emergencies. These are examples only; the chatbot must use the exact terms purchased by the customer.
+
+
+Market-wise Refund Shield Price (Per Passenger, Per Booking)
+Ancillary:	
+Refund Shield / Refundable Booking	US Market $25	UK Market £20	Canada Market C$30
+Assignment benchmark price. Refund Shield pricing and coverage are provider-specific; these fixed values are intended for the interview chatbot database.
+
+
+6. COMMON CHATBOT DECISION RULES
+    If Customer asks about: Price / fee	Airline, 
+    Chatbot should check: Airline, route, cabin/fare, passenger, segment and current ancillary price.
+    Safe response behavior: Return exact price only from current booking/airline data.
+
+    If Customer asks about: Is it confirmed?
+    Chatbot should check: Booking ancillary status and airline confirmation
+    Safe response behavior: Do not confuse REQUESTED with CONFIRMED.
+
+    If Customer asks about: Can I add it after booking?
+    Chatbot should check: Provider/airline post-booking eligibility and cut-off
+    Safe response behavior: Give Manage Booking path if available; otherwise airline/support route.
+
+    If Customer asks about: Can I remove it? 
+    Chatbot should check: Whether ancillary is removable and whether service has already been used/rendered
+    Safe response behavior: Explain removal separately from refund.
+
+    If Customer asks about: Will I get a refund? 
+    Chatbot should check: Ancillary-specific refund terms and payment source
+    Safe response behavior: Never infer refundability from ticket refundability.
+
+    If Customer asks about: Multi-airline itinerary 
+    Chatbot should check: Operating carriers and baggage/ancillary ownership per segment
+    Safe response behavior: Warn that rules/fees can differ by carrier.
+
+    If Customer asks about: Protection claim 
+    Chatbot should check: Purchased protection product, covered reason, deadline, exclusions and evidence
+    Safe response behavior: Use conditional language until claim approval.
+
+
+7. CORE DISCLAIMER FOR THE CHATBOT
+  Recommended knowledge-base wording: Seat and meal selections may be submitted as special requests and are subject to airline confirmation. Baggage allowances, fees and ancillary availability vary by airline and itinerary. Cancellation Protection and Refund Shield benefits depend on the specific product purchased, including its eligibility rules, exclusions, deadlines and evidence requirements. For any dynamic or booking-specific answer, the chatbot should retrieve the current booking/airline/provider terms before confirming a price, service or refund.
+
+8. UNKNOWN INFORMATION
+
+   If the answer cannot be found in the retrieved HolidayBreakz
+   knowledge:
+
+    "Please contact HolidayBreakz support for the most accurate
+    information."
+
+9. RAG GROUNDING RULE
+
+User Question
+↓
+Retrieve HolidayBreakz Knowledge
+↓
+Relevant Information Found?
+↓
+YES → Answer using retrieved information
+NO → Use fallback response
+
+The assistant must not fill missing information using assumptions.

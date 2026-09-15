@@ -1,0 +1,58 @@
+# =========================
+# Environment / API Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# =========================
+# Node / Frontend
+# =========================
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+coverage/
+
+# =========================
+# Chroma / Vector Database
+# =========================
+chroma_db/
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Local uploads / temporary files
+# =========================
+uploads/
+temp/
+tmp/
