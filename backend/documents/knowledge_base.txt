@@ -218,7 +218,7 @@ Refund Shield, sometimes presented as a Refundable Booking upgrade, is an option
 
 What does it include / not include?
 What it may include:
-• Refund consideration for qualifying reasons listed in the Refundable Terms.
+• Refund consideration for qualifying reasons listed in the Refundable Terms
 • A defined online refund-request/claim process.
 • Assessment of supporting evidence where required.
 • Refund up to the applicable booking amount/plan limit when approved.	

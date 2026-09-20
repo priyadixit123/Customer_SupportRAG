@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from typing import TypedDict
+from langgraph.checkpoint.sqlite import SqliteSaver
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI

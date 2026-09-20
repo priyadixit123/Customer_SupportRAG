@@ -1,351 +1,319 @@
-/* =====================================================
-   HOLIDAYBREAKZ AI AGENT
-   ICON-MATCHED ORANGE THEME
-===================================================== */
+/* =========================================================
+   GLOBAL
+   ========================================================= */
 
-.travel-agent-container {
-  position: relative;
-  z-index: 9999;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: transparent;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 
-/* =====================================================
-   SMALL FLOATING AGENT
-===================================================== */
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.travel-agent-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SMALL AGENT
+   ========================================================= */
 
 .agent-small-button {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  right: 25px;
+  bottom: 25px;
 
   width: 72px;
   height: 72px;
 
-  padding: 5px;
-
   border: none;
+  padding: 0;
   border-radius: 50%;
 
-  background: #ffffff;
-
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: white;
 
   box-shadow:
-    0 6px 20px rgba(255, 126, 0, 0.30);
+    0 8px 25px rgba(0, 0, 0, 0.20),
+    0 0 0 4px rgba(255, 255, 255, 0.8);
 
-  transition: all 0.25s ease;
+  overflow: hidden;
+
+  pointer-events: auto;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .agent-small-button:hover {
   transform: scale(1.08);
 
   box-shadow:
-    0 10px 30px rgba(255, 126, 0, 0.40);
+    0 12px 30px rgba(0, 0, 0, 0.25),
+    0 0 0 5px rgba(255, 255, 255, 0.9);
 }
 
 .agent-small-button img {
   width: 100%;
   height: 100%;
-
-  object-fit: contain;
-
-  border-radius: 50%;
+  object-fit: cover;
 }
 
 
-/* =====================================================
-   CENTER OVERLAY
-===================================================== */
+/* =========================================================
+   LARGE AGENT OVERLAY
+   ========================================================= */
 
 .agent-overlay {
   position: fixed;
   inset: 0;
 
-  z-index: 10000;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background:
-    rgba(48, 25, 8, 0.48);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(5px);
 
-  backdrop-filter: blur(6px);
+  pointer-events: auto;
 
-  animation: overlayFadeIn 0.3s ease;
+  animation: fadeIn 0.25s ease;
 }
-
-
-/* =====================================================
-   LARGE AGENT CARD
-===================================================== */
 
 .large-agent-wrapper {
   position: relative;
 
-  width: 370px;
-  min-height: 440px;
+  width: 380px;
+  min-height: 420px;
 
-  padding: 35px;
-
-  box-sizing: border-box;
-
-  background:
-    linear-gradient(
-      180deg,
-      #fffaf4 0%,
-      #ffffff 100%
-    );
-
-  border-radius: 30px;
-
-  border:
-    1px solid rgba(255, 126, 0, 0.18);
+  padding: 45px 30px;
 
   display: flex;
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
 
-  box-shadow:
-    0 25px 80px rgba(120, 55, 0, 0.30);
+  background: white;
 
-  animation:
-    agentZoomIn 0.45s
-    cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 28px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.25);
+
+  text-align: center;
+
+  animation: scaleIn 0.3s ease;
 }
 
 
-/* =====================================================
-   LARGE AGENT ICON
-===================================================== */
+/* =========================================================
+   LARGE AGENT BUTTON
+   ========================================================= */
 
 .large-agent-button {
-  width: 200px;
-  height: 200px;
-
-  padding: 0;
+  width: 180px;
+  height: 180px;
 
   border: none;
+  padding: 0;
 
-  background: transparent;
+  border-radius: 50%;
 
-  cursor: pointer;
+  background: white;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 
-  transition:
-    transform 0.25s ease;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.18),
+    0 0 0 8px rgba(245, 245, 245, 0.9);
+
+  transition: transform 0.3s ease;
 }
 
 .large-agent-button:hover {
-  transform: scale(1.07);
+  transform: scale(1.05);
 }
 
 .large-agent-button img {
   width: 100%;
   height: 100%;
-
-  object-fit: contain;
+  object-fit: cover;
 }
 
 
-/* =====================================================
+/* =========================================================
    WELCOME TEXT
-===================================================== */
+   ========================================================= */
 
 .agent-welcome-text {
-  text-align: center;
-  margin-top: 12px;
+  margin-top: 25px;
 }
 
 .agent-welcome-text h2 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
 
   font-size: 28px;
   font-weight: 700;
 
-  color: #2d2118;
+  color: #222;
 }
 
 .agent-welcome-text p {
   margin: 0;
 
   font-size: 18px;
-  font-weight: 600;
+  line-height: 1.5;
 
-  color: #ef7200;
+  color: #555;
 }
 
 .agent-welcome-text span {
   display: block;
 
-  margin-top: 12px;
+  margin-top: 15px;
 
-  font-size: 13px;
+  font-size: 14px;
 
-  color: #8a7868;
+  color: #888;
 }
 
 
-/* =====================================================
-   CLOSE LARGE
-===================================================== */
+/* =========================================================
+   LARGE AGENT CLOSE
+   ========================================================= */
 
 .large-agent-close {
   position: absolute;
 
-  top: 16px;
-  right: 16px;
+  top: 15px;
+  right: 18px;
 
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
 
   border: none;
   border-radius: 50%;
 
-  background: #fff1e4;
+  background: #f3f3f3;
 
-  color: #e66c00;
+  color: #555;
 
-  font-size: 17px;
+  font-size: 18px;
 
-  cursor: pointer;
-
-  transition: all 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .large-agent-close:hover {
-  background: #ffe2cc;
-
+  background: #e5e5e5;
   transform: rotate(90deg);
 }
 
 
-/* =====================================================
+/* =========================================================
    CHAT OVERLAY
-===================================================== */
+   ========================================================= */
 
 .chat-overlay {
   position: fixed;
-
   inset: 0;
 
-  z-index: 10001;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 
-  pointer-events: none;
+  padding: 25px;
+
+  pointer-events: auto;
+
+  animation: fadeIn 0.25s ease;
 }
 
 
-/* =====================================================
+/* =========================================================
    CHAT WINDOW
-===================================================== */
+   ========================================================= */
 
 .travel-chat-window {
-  position: fixed;
-
-  right: 24px;
-  bottom: 24px;
-
-  width: 400px;
-  height: 610px;
-
-  max-width: calc(100vw - 30px);
-  max-height: calc(100vh - 30px);
-
-  overflow: hidden;
+  width: 390px;
+  height: 620px;
 
   display: flex;
   flex-direction: column;
 
-  background: #fffaf5;
+  overflow: hidden;
 
-  border-radius: 24px;
+  background: white;
 
-  border:
-    1px solid rgba(255, 126, 0, 0.20);
-
-  pointer-events: auto;
+  border-radius: 22px;
 
   box-shadow:
-    0 20px 70px rgba(105, 52, 0, 0.30);
+    0 20px 60px rgba(0, 0, 0, 0.25);
 
-  animation:
-    chatSlideUp 0.35s
-    cubic-bezier(0.16, 1, 0.3, 1);
+  animation: chatSlideUp 0.3s ease;
 }
 
 
-/* =====================================================
+/* =========================================================
    CHAT HEADER
-===================================================== */
+   ========================================================= */
 
 .travel-chat-header {
-  height: 78px;
-
-  flex-shrink: 0;
-
-  padding: 0 18px;
+  min-height: 72px;
 
   display: flex;
-
   align-items: center;
   justify-content: space-between;
 
-  color: white;
+  padding: 10px 16px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #ff7200 0%,
-      #ff8c00 55%,
-      #ff9f1c 100%
-    );
+  background: #ffffff;
 
-  box-shadow:
-    0 4px 15px rgba(255, 114, 0, 0.22);
+  border-bottom: 1px solid #eeeeee;
 }
-
-
-/* =====================================================
-   HEADER AGENT
-===================================================== */
 
 .header-agent {
   display: flex;
   align-items: center;
 
-  gap: 11px;
+  gap: 10px;
 }
 
 .header-agent img {
   width: 48px;
   height: 48px;
 
-  padding: 2px;
-
-  object-fit: contain;
-
-  background: #ffffff;
-
   border-radius: 50%;
 
-  box-shadow:
-    0 3px 10px rgba(0, 0, 0, 0.16);
+  object-fit: cover;
 }
 
 .header-agent strong {
   display: block;
 
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  color: #222;
 }
 
 .header-agent small {
@@ -355,66 +323,51 @@
 
   font-size: 12px;
 
-  color: #fff8ed;
+  color: #20a464;
 }
 
-
-/* =====================================================
-   HEADER CLOSE
-===================================================== */
-
 .chat-close {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
 
   border: none;
   border-radius: 50%;
 
-  background:
-    rgba(255, 255, 255, 0.18);
+  background: #f3f3f3;
 
-  color: white;
+  color: #555;
 
-  font-size: 18px;
+  font-size: 17px;
 
-  cursor: pointer;
-
-  transition: all 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .chat-close:hover {
-  background:
-    rgba(255, 255, 255, 0.32);
-
+  background: #e5e5e5;
   transform: rotate(90deg);
 }
 
 
-/* =====================================================
+/* =========================================================
    CHAT BODY
-===================================================== */
+   ========================================================= */
 
 .travel-chat-body {
   flex: 1;
 
+  padding: 18px 15px;
+
   overflow-y: auto;
 
-  padding: 20px 16px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #fff9f2 0%,
-      #fffdfb 100%
-    );
+  background: #f7f8fa;
 
   scroll-behavior: smooth;
 }
 
 
-/* =====================================================
-   SCROLLBAR
-===================================================== */
+/* Scrollbar */
 
 .travel-chat-body::-webkit-scrollbar {
   width: 5px;
@@ -425,232 +378,187 @@
 }
 
 .travel-chat-body::-webkit-scrollbar-thumb {
-  background: #ffc27a;
-
+  background: #cccccc;
   border-radius: 10px;
 }
 
 
-/* =====================================================
+/* =========================================================
    QUICK ACTIONS
-===================================================== */
+   ========================================================= */
 
 .quick-actions {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .quick-actions p {
   margin: 0 0 12px;
 
-  font-size: 14px;
-
+  font-size: 13px;
   font-weight: 600;
 
-  color: #6f5847;
+  color: #666;
 }
 
 .quick-actions button {
+  display: block;
+
   width: 100%;
 
   margin-bottom: 8px;
+  padding: 11px 13px;
 
-  padding: 12px 14px;
+  border: 1px solid #e4e4e4;
 
-  border:
-    1px solid #ffe0c2;
+  border-radius: 12px;
 
-  border-radius: 13px;
-
-  background: #ffffff;
-
-  color: #4a3525;
+  background: white;
 
   text-align: left;
 
-  cursor: pointer;
-
   font-size: 13px;
 
-  font-weight: 500;
+  color: #333;
 
-  box-shadow:
-    0 2px 7px rgba(150, 75, 0, 0.04);
-
-  transition: all 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .quick-actions button:hover {
-  background: #fff4e8;
+  background: #f1f7ff;
 
-  border-color: #ff9a3d;
-
-  color: #e96f00;
+  border-color: #bcd7f5;
 
   transform: translateX(3px);
-
-  box-shadow:
-    0 4px 12px rgba(255, 126, 0, 0.10);
 }
 
 
-/* =====================================================
-   MESSAGE
-===================================================== */
+/* =========================================================
+   CHAT MESSAGE
+   ========================================================= */
 
 .chat-message {
   display: flex;
 
-  gap: 8px;
+  margin-bottom: 14px;
 
-  margin-bottom: 15px;
-
-  animation:
-    messageAppear 0.25s ease;
+  animation: messageAppear 0.25s ease;
 }
-
-
-/* =====================================================
-   ASSISTANT MESSAGE
-===================================================== */
 
 .assistant-message {
   justify-content: flex-start;
 }
-
-.message-avatar {
-  width: 31px;
-  height: 31px;
-
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  background: #ffffff;
-
-  border:
-    1px solid #ffe1c4;
-
-  border-radius: 50%;
-
-  font-size: 16px;
-
-  box-shadow:
-    0 2px 7px rgba(150, 75, 0, 0.10);
-}
-
-
-/* =====================================================
-   USER MESSAGE
-===================================================== */
 
 .user-message {
   justify-content: flex-end;
 }
 
 
-/* =====================================================
-   BUBBLE
-===================================================== */
+/* =========================================================
+   AI AVATAR
+   ========================================================= */
+
+.message-avatar {
+  flex-shrink: 0;
+
+  width: 30px;
+  height: 30px;
+
+  margin-right: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: white;
+
+  font-size: 16px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   MESSAGE BUBBLE
+   ========================================================= */
 
 .message-bubble {
-  max-width: 76%;
+  max-width: 78%;
 
-  padding: 11px 14px;
+  padding: 10px 13px;
 
-  border-radius: 17px;
+  border-radius: 16px;
 
   font-size: 14px;
-
-  line-height: 1.55;
-
-  white-space: pre-wrap;
+  line-height: 1.5;
 
   word-break: break-word;
 }
 
-
-/* =====================================================
-   ASSISTANT BUBBLE
-===================================================== */
-
 .assistant-message .message-bubble {
-  background: #ffffff;
+  background: white;
 
-  color: #403229;
-
-  border:
-    1px solid #f4e3d3;
+  color: #333;
 
   border-top-left-radius: 5px;
 
   box-shadow:
-    0 3px 10px rgba(130, 65, 0, 0.06);
+    0 2px 7px rgba(0, 0, 0, 0.06);
 }
 
-
-/* =====================================================
-   USER BUBBLE
-===================================================== */
-
 .user-message .message-bubble {
-  background:
-    linear-gradient(
-      135deg,
-      #ff7200,
-      #ff921c
-    );
+  background: #2563eb;
 
-  color: #ffffff;
+  color: white;
 
   border-top-right-radius: 5px;
 
   box-shadow:
-    0 4px 12px rgba(255, 114, 0, 0.18);
+    0 2px 7px rgba(37, 99, 235, 0.20);
 }
 
 
-/* =====================================================
+/* =========================================================
    TYPING CURSOR
-===================================================== */
+   ========================================================= */
 
 .typing-cursor {
+  display: inline-block;
+
   margin-left: 2px;
 
-  color: #ff7200;
-
-  animation:
-    cursorBlink 0.8s infinite;
+  animation: cursorBlink 0.7s infinite;
 }
 
 
-/* =====================================================
-   THINKING
-===================================================== */
+/* =========================================================
+   THINKING INDICATOR
+   ========================================================= */
 
 .thinking {
   display: flex;
-
   align-items: center;
 
   gap: 4px;
 
-  min-width: 48px;
-  min-height: 20px;
+  min-width: 55px;
+
+  padding: 12px 14px;
 }
 
 .thinking span {
   width: 6px;
   height: 6px;
 
-  background: #ff8a24;
-
   border-radius: 50%;
 
-  animation:
-    thinkingAnimation 1.2s infinite;
+  background: #888;
+
+  animation: thinkingBounce 1.2s infinite;
 }
 
 .thinking span:nth-child(2) {
@@ -658,35 +566,26 @@
 }
 
 .thinking span:nth-child(3) {
-  animation-delay: 0.30s;
+  animation-delay: 0.3s;
 }
 
 
-/* =====================================================
+/* =========================================================
    INPUT AREA
-===================================================== */
+   ========================================================= */
 
 .travel-chat-input {
-  min-height: 72px;
-
-  padding: 10px 11px;
-
   display: flex;
-
   align-items: center;
 
-  gap: 7px;
+  gap: 8px;
 
-  background: #ffffff;
+  padding: 12px;
 
-  border-top:
-    1px solid #f2dfce;
+  background: white;
+
+  border-top: 1px solid #eeeeee;
 }
-
-
-/* =====================================================
-   INPUT
-===================================================== */
 
 .travel-chat-input input {
   flex: 1;
@@ -695,124 +594,106 @@
 
   height: 44px;
 
-  padding: 0 16px;
+  padding: 0 13px;
 
-  border:
-    1px solid #ead9c9;
+  border: 1px solid #dddddd;
 
-  border-radius: 23px;
+  border-radius: 13px;
 
   outline: none;
 
-  background: #fffaf6;
-
-  color: #403229;
-
   font-size: 14px;
 
-  transition: all 0.2s ease;
-}
+  color: #333;
 
-.travel-chat-input input::placeholder {
-  color: #a28e7c;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .travel-chat-input input:focus {
-  background: #ffffff;
-
-  border-color: #ff922b;
+  border-color: #2563eb;
 
   box-shadow:
-    0 0 0 3px rgba(255, 146, 43, 0.12);
+    0 0 0 3px rgba(37, 99, 235, 0.10);
 }
 
 .travel-chat-input input:disabled {
-  background: #f7f3ef;
+  background: #f5f5f5;
 }
 
 
-/* =====================================================
-   VOICE
-===================================================== */
+/* =========================================================
+   VOICE BUTTON
+   ========================================================= */
 
 .voice-button,
 .send-button {
+  flex-shrink: 0;
+
   width: 42px;
   height: 42px;
-
-  flex-shrink: 0;
 
   border: none;
 
   border-radius: 50%;
 
-  cursor: pointer;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   font-size: 17px;
 
-  transition: all 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
 }
 
 .voice-button {
-  background: #fff0e1;
-
-  color: #e96f00;
+  background: #f1f3f5;
 }
 
 .voice-button:hover:not(:disabled) {
-  background: #ffe0c2;
+  transform: scale(1.08);
 
-  transform: scale(1.06);
+  background: #e5e7eb;
 }
 
 .voice-button.listening {
-  background: #ffe0e0;
+  animation: voicePulse 1s infinite;
+}
+
+.voice-button:disabled,
+.send-button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.5;
 }
 
 
-/* =====================================================
-   SEND
-===================================================== */
+/* =========================================================
+   SEND BUTTON
+   ========================================================= */
 
 .send-button {
-  background:
-    linear-gradient(
-      135deg,
-      #ff7200,
-      #ff941f
-    );
+  background: #2563eb;
 
   color: white;
-
-  box-shadow:
-    0 4px 10px rgba(255, 114, 0, 0.20);
 }
 
 .send-button:hover:not(:disabled) {
-  transform: scale(1.07);
+  transform: scale(1.08);
 
-  box-shadow:
-    0 6px 15px rgba(255, 114, 0, 0.30);
-}
-
-.send-button:disabled,
-.voice-button:disabled {
-  opacity: 0.45;
-
-  cursor: not-allowed;
+  background: #1d4ed8;
 }
 
 
-/* =====================================================
+/* =========================================================
    ANIMATIONS
-===================================================== */
+   ========================================================= */
 
-@keyframes overlayFadeIn {
+@keyframes fadeIn {
   from {
     opacity: 0;
   }
@@ -822,74 +703,55 @@
   }
 }
 
-
-@keyframes agentZoomIn {
+@keyframes scaleIn {
   from {
     opacity: 0;
-
-    transform:
-      scale(0.45);
+    transform: scale(0.85);
   }
 
   to {
     opacity: 1;
-
-    transform:
-      scale(1);
+    transform: scale(1);
   }
 }
-
 
 @keyframes chatSlideUp {
   from {
     opacity: 0;
-
-    transform:
-      translateY(40px)
-      scale(0.95);
+    transform: translateY(25px);
   }
 
   to {
     opacity: 1;
-
-    transform:
-      translateY(0)
-      scale(1);
+    transform: translateY(0);
   }
 }
-
 
 @keyframes messageAppear {
   from {
     opacity: 0;
-
-    transform:
-      translateY(6px);
+    transform: translateY(5px);
   }
 
   to {
     opacity: 1;
-
-    transform:
-      translateY(0);
+    transform: translateY(0);
   }
 }
 
-
 @keyframes cursorBlink {
   0%,
-  49% {
+  50% {
     opacity: 1;
   }
 
-  50%,
+  51%,
   100% {
     opacity: 0;
   }
 }
 
-
-@keyframes thinkingAnimation {
+@keyframes thinkingBounce {
   0%,
   60%,
   100% {
@@ -901,57 +763,115 @@
   }
 }
 
+@keyframes voicePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.35);
+  }
 
-/* =====================================================
-   MOBILE
-===================================================== */
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 600px) {
 
   .agent-small-button {
-    right: 15px;
-    bottom: 15px;
+    right: 16px;
+    bottom: 16px;
 
-    width: 64px;
-    height: 64px;
+    width: 62px;
+    height: 62px;
   }
 
   .large-agent-wrapper {
-    width: calc(100vw - 35px);
+    width: calc(100% - 30px);
 
-    min-height: 400px;
+    min-height: 390px;
 
-    padding: 25px;
+    padding: 35px 20px;
   }
 
   .large-agent-button {
-    width: 165px;
-    height: 165px;
+    width: 150px;
+    height: 150px;
   }
 
   .agent-welcome-text h2 {
-    font-size: 25px;
+    font-size: 24px;
   }
 
   .agent-welcome-text p {
     font-size: 16px;
   }
 
+  .chat-overlay {
+    padding: 0;
+
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
   .travel-chat-window {
-    right: 8px;
-    bottom: 8px;
+    width: 100%;
+    height: 100%;
 
-    width: calc(100vw - 16px);
+    border-radius: 0;
+  }
 
-    height: calc(100vh - 16px);
+  .travel-chat-header {
+    min-height: 65px;
+  }
 
-    max-width: none;
-    max-height: none;
-
-    border-radius: 20px;
+  .travel-chat-body {
+    padding: 15px 12px;
   }
 
   .message-bubble {
     max-width: 82%;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE DEVICES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .message-bubble {
+    max-width: 85%;
+
+    font-size: 13px;
+  }
+
+  .quick-actions button {
+    font-size: 12px;
+  }
+
+  .travel-chat-input {
+    gap: 5px;
+
+    padding: 8px;
+  }
+
+  .voice-button,
+  .send-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .travel-chat-input input {
+    height: 40px;
+
+    font-size: 13px;
   }
 }
