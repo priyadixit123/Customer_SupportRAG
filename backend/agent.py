@@ -1,7 +1,6 @@
 import os
 import sqlite3
 from typing import TypedDict
-from langgraph.checkpoint.sqlite import SqliteSaver
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
@@ -11,6 +10,12 @@ from langgraph.types import RetryPolicy
 from langgraph.checkpoint.sqlite import SqliteSaver
 
 from rag.retriever import retrieve_context
+
+from cache import (
+    get_query_embedding,
+    find_cached_answer,
+    save_cache
+)
 
 
 # --------------------------------------------------
@@ -67,6 +72,8 @@ Rules:
 
 class AgentState(TypedDict):
     user_question: str
+    conversation_history: str
+    topic: str
     context: str
     answer: str
     error: str
@@ -225,11 +232,43 @@ def ask_agent(
     thread_id: str
 ):
 
+     # ------------------------------------------
+    # 1. Create query embedding
+    # ------------------------------------------
+
+    query_embedding = get_query_embedding(
+        user_question
+    )
+
+
+    # ------------------------------------------
+    # 2. Check semantic cache
+    # ------------------------------------------
+
+    cached_answer = find_cached_answer(
+        query_embedding
+    )
+
+
+    # ------------------------------------------
+    # 3. Return cached answer
+    # ------------------------------------------
+
+    if cached_answer:
+
+        return cached_answer
+
+
+    # ------------------------------------------
+    # 4. Cache MISS → Run LangGraph
+    # ------------------------------------------
+
     config = {
         "configurable": {
             "thread_id": thread_id
         }
     }
+
 
     result = graph.invoke(
         {
@@ -241,4 +280,19 @@ def ask_agent(
         config=config
     )
 
-    return result["answer"]
+
+    answer = result["answer"]
+
+
+    # ------------------------------------------
+    # 5. Save answer in cache
+    # ------------------------------------------
+
+    save_cache(
+        user_question,
+        query_embedding,
+        answer
+    )
+
+
+    return answer

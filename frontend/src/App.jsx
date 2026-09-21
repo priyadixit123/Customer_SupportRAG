@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import LandingPage from "./LandingPage";
@@ -105,43 +106,6 @@ export default function TravelAgent() {
   }
 
   // =========================================================
-  // TYPING EFFECT
-  // =========================================================
-  async function typeAIResponse(text) {
-    // Add empty assistant message
-    setMessages((previousMessages) => [
-      ...previousMessages,
-      {
-        role: "assistant",
-        text: "",
-      },
-    ]);
-
-    // Type character by character
-    for (let i = 0; i < text.length; i++) {
-      await new Promise((resolve) =>
-        setTimeout(resolve, 12)
-      );
-
-      setMessages((previousMessages) => {
-        const updatedMessages = [
-          ...previousMessages,
-        ];
-
-        const lastIndex =
-          updatedMessages.length - 1;
-
-        updatedMessages[lastIndex] = {
-          ...updatedMessages[lastIndex],
-          text: text.slice(0, i + 1),
-        };
-
-        return updatedMessages;
-      });
-    }
-  }
-
-  // =========================================================
   // SEND MESSAGE
   // =========================================================
   async function sendMessage(text = message) {
@@ -152,17 +116,13 @@ export default function TravelAgent() {
     const userMessage = text.trim();
 
     console.log("=================================");
-    console.log("SENDING MESSAGE:");
-    console.log(userMessage);
-
-    console.log("THREAD ID:");
-    console.log(sessionId);
-
+    console.log("SENDING MESSAGE:", userMessage);
+    console.log("SESSION ID:", sessionId);
     console.log("=================================");
 
-    // ---------------------------------------------------------
+    // -------------------------------------------------------
     // ADD USER MESSAGE
-    // ---------------------------------------------------------
+    // -------------------------------------------------------
     setMessages((previousMessages) => [
       ...previousMessages,
       {
@@ -178,9 +138,9 @@ export default function TravelAgent() {
     setLoading(true);
 
     try {
-      // -------------------------------------------------------
+      // -----------------------------------------------------
       // BACKEND REQUEST
-      // -------------------------------------------------------
+      // -----------------------------------------------------
       const result = await fetch(
         "http://127.0.0.1:8000/chat",
         {
@@ -192,66 +152,68 @@ export default function TravelAgent() {
 
           body: JSON.stringify({
             message: userMessage,
-
-            // Backend expects thread_id
-            thread_id: sessionId,
+            session_id: sessionId,
           }),
         }
       );
 
-      console.log(
-        "BACKEND STATUS:",
-        result.status
-      );
+      console.log("BACKEND STATUS:", result.status);
 
-      // -------------------------------------------------------
+      // -----------------------------------------------------
+      // READ RESPONSE
+      // -----------------------------------------------------
+      const rawResponse = await result.text();
+
+      console.log("RAW BACKEND RESPONSE:");
+      console.log(rawResponse);
+
+      // -----------------------------------------------------
       // HTTP ERROR
-      // -------------------------------------------------------
+      // -----------------------------------------------------
       if (!result.ok) {
-        const errorText =
-          await result.text();
-
-        console.error(
-          "BACKEND ERROR RESPONSE:",
-          errorText
-        );
-
         throw new Error(
-          `Backend error: ${result.status}`
+          `Backend error: ${result.status} - ${rawResponse}`
         );
       }
 
-      // -------------------------------------------------------
+      // -----------------------------------------------------
       // PARSE JSON
-      // -------------------------------------------------------
-      const data =
-        await result.json();
+      // -----------------------------------------------------
+      let data;
 
-      console.log("=================================");
-      console.log("BACKEND RESPONSE:");
+      try {
+        data = JSON.parse(rawResponse);
+      } catch (parseError) {
+        console.error("JSON PARSE ERROR:", parseError);
+
+        throw new Error(
+          "Backend returned an invalid JSON response."
+        );
+      }
+
+      console.log("PARSED RESPONSE:");
       console.log(data);
-      console.log("=================================");
 
-      // -------------------------------------------------------
-      // EXTRACT ANSWER
-      // -------------------------------------------------------
-      const aiResponse =
-        extractAIResponse(data);
+      // -----------------------------------------------------
+      // EXTRACT AI RESPONSE
+      // -----------------------------------------------------
+      const aiResponse = extractAIResponse(data);
 
-      console.log("=================================");
-      console.log("FINAL AI RESPONSE:");
-      console.log(aiResponse);
-      console.log("=================================");
+      console.log("AI RESPONSE:", aiResponse);
 
-      // -------------------------------------------------------
-      // SHOW ANSWER WITH TYPING EFFECT
-      // -------------------------------------------------------
-      await typeAIResponse(aiResponse);
+      // -----------------------------------------------------
+      // ADD ASSISTANT MESSAGE
+      // -----------------------------------------------------
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        {
+          role: "assistant",
+          text: aiResponse,
+        },
+      ]);
 
-      // -------------------------------------------------------
-      // SPEAK ANSWER
-      // -------------------------------------------------------
-      speak(aiResponse);
+      // Optional voice response
+      // speak(aiResponse);
 
     } catch (error) {
       console.error("=================================");
@@ -284,15 +246,13 @@ export default function TravelAgent() {
       return;
     }
 
-    const speech =
-      new SpeechSynthesisUtterance(text);
+    const speech = new SpeechSynthesisUtterance(text);
 
     speech.lang = "en-IN";
     speech.rate = 1;
     speech.pitch = 1;
 
     window.speechSynthesis.cancel();
-
     window.speechSynthesis.speak(speech);
   }
 
@@ -312,31 +272,23 @@ export default function TravelAgent() {
       return;
     }
 
-    const recognition =
-      new SpeechRecognition();
+    const recognition = new SpeechRecognition();
 
     recognition.lang = "en-IN";
-
     recognition.interimResults = false;
-
     recognition.continuous = false;
 
     setListening(true);
 
     recognition.onstart = () => {
-      console.log(
-        "Voice recognition started"
-      );
+      console.log("Voice recognition started");
     };
 
     recognition.onresult = async (event) => {
       const text =
         event.results[0][0].transcript;
 
-      console.log(
-        "VOICE MESSAGE:",
-        text
-      );
+      console.log("VOICE MESSAGE:", text);
 
       setListening(false);
 
@@ -390,9 +342,9 @@ export default function TravelAgent() {
           ===================================================== */}
       <div className="travel-agent-container">
 
-        {/* =====================================================
+        {/* ===================================================
             SMALL AGENT
-            ===================================================== */}
+            =================================================== */}
         {agentState === "small" && (
           <button
             className="agent-small-button"
@@ -406,9 +358,9 @@ export default function TravelAgent() {
           </button>
         )}
 
-        {/* =====================================================
+        {/* ===================================================
             LARGE AGENT
-            ===================================================== */}
+            =================================================== */}
         {agentState === "large" && (
           <div className="agent-overlay">
 
@@ -456,9 +408,9 @@ export default function TravelAgent() {
           </div>
         )}
 
-        {/* =====================================================
+        {/* ===================================================
             CHAT
-            ===================================================== */}
+            =================================================== */}
         {agentState === "chat" && (
           <div className="chat-overlay">
 
@@ -574,53 +526,46 @@ export default function TravelAgent() {
                 {/* =================================================
                     MESSAGES
                     ================================================= */}
-                {messages.map(
-                  (msg, index) => (
-                    <div
-                      key={index}
-                      className={
-                        msg.role === "user"
-                          ? "chat-message user-message"
-                          : "chat-message assistant-message"
-                      }
-                    >
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={
+                      msg.role === "user"
+                        ? "chat-message user-message"
+                        : "chat-message assistant-message"
+                    }
+                  >
 
-                      {/* ASSISTANT AVATAR */}
-                      {msg.role === "assistant" && (
-                        <div className="message-avatar">
-                          🤖
-                        </div>
-                      )}
-
-                      {/* MESSAGE */}
-                      <div className="message-bubble">
-
-                        {msg.text}
-
-                        {/* Typing cursor */}
-                        {loading &&
-                          index ===
-                            messages.length - 1 &&
-                          msg.role ===
-                            "assistant" && (
-                            <span className="typing-cursor">
-                              ▌
-                            </span>
-                          )}
-
+                    {/* ASSISTANT AVATAR */}
+                    {msg.role === "assistant" && (
+                      <div className="message-avatar">
+                        🤖
                       </div>
+                    )}
 
+                    {/* MESSAGE */}
+                    <div className="message-bubble">
+                      {msg.text}
+
+                      {/* Typing cursor */}
+                      {loading &&
+                        index === messages.length - 1 &&
+                        msg.role === "assistant" && (
+                          <span className="typing-cursor">
+                            ▌
+                          </span>
+                        )}
                     </div>
-                  )
-                )}
+
+                  </div>
+                ))}
 
                 {/* =================================================
                     THINKING INDICATOR
                     ================================================= */}
                 {loading &&
-                  messages[
-                    messages.length - 1
-                  ]?.role === "user" && (
+                  messages[messages.length - 1]?.role ===
+                    "user" && (
 
                   <div className="chat-message assistant-message">
 
@@ -629,15 +574,12 @@ export default function TravelAgent() {
                     </div>
 
                     <div className="message-bubble thinking">
-
                       <span></span>
                       <span></span>
                       <span></span>
-
                     </div>
 
                   </div>
-
                 )}
 
               </div>
@@ -656,16 +598,13 @@ export default function TravelAgent() {
                     setMessage(e.target.value)
                   }
                   onKeyDown={(e) => {
-
                     if (
                       e.key === "Enter" &&
                       !loading
                     ) {
                       e.preventDefault();
-
                       sendMessage();
                     }
-
                   }}
                 />
 
@@ -679,16 +618,11 @@ export default function TravelAgent() {
                       : "voice-button"
                   }
                   onClick={startListening}
-                  disabled={
-                    listening ||
-                    loading
-                  }
+                  disabled={listening || loading}
                   title="Voice input"
                   aria-label="Voice input"
                 >
-                  {listening
-                    ? "🔴"
-                    : "🎤"}
+                  {listening ? "🔴" : "🎤"}
                 </button>
 
                 {/* =================================================
@@ -696,9 +630,7 @@ export default function TravelAgent() {
                     ================================================= */}
                 <button
                   className="send-button"
-                  onClick={() =>
-                    sendMessage()
-                  }
+                  onClick={() => sendMessage()}
                   disabled={
                     loading ||
                     !message.trim()
