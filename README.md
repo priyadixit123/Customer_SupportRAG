@@ -1,164 +1,390 @@
-
 # Holiday AI Customer Support Assistant
 
-An AI-powered customer support assistant for **Holiday** built using **RAG (Retrieval-Augmented Generation), ChromaDB, LangChain, LangGraph, FastAPI, React, and OpenRouter**.
+An AI-powered customer support assistant for **HolidayBreakz** built using **RAG (Retrieval-Augmented Generation), Hybrid Search, BM25, ChromaDB, LangChain, LangGraph, FastAPI, React, OpenRouter, and caching**.
 
-The assistant retrieves relevant information from the Holiday knowledge base before generating an answer, helping keep responses grounded in company-provided information and reducing hallucinations.
+The assistant retrieves relevant information from the HolidayBreakz knowledge base using both **semantic vector search and keyword-based BM25 retrieval**, combines the results using **Reciprocal Rank Fusion (RRF)**, and then provides the retrieved context to an LLM for grounded response generation.
+
+A caching layer is also used to reduce repeated retrieval/LLM work for frequently repeated queries.
 
 ---
 
-##  Project Overview
+# Project Overview
 
 The Holiday AI Assistant is designed to answer customer-support questions related to:
 
-- Holiday services
+- HolidayBreakz services
 - Holiday packages
 - Booking information
 - Booking cancellation
 - Refund information
+- Seat selection
+- Baggage
+- Meals and other ancillaries
 - Customer support
 - Company policies available in the knowledge base
 
-The application uses a **RAG-based AI workflow** with LangGraph for workflow orchestration and SQLite checkpointing for session-based state persistence.
-
-### Architecture
+The application uses a **Hybrid RAG architecture** combining:
 
 ```text
-Customer
-   ↓
-React Chat Interface
-   ↓
-FastAPI Backend
-   ↓
-LangGraph AI Workflow
-   ↓
-RAG Retriever
-   ↓
-ChromaDB
-   ↓
-Relevant Knowledge Base Chunks
-   ↓
-OpenRouter LLM
-   ↓
-Generated Answer
-   ↓
-Customer
+Vector Search
+      +
+BM25 Keyword Search
+      ↓
+RRF Hybrid Ranking
+      ↓
+Relevant Context
+      ↓
+LLM
+      ↓
+Grounded Answer
+```
+
+LangGraph is used to orchestrate the AI workflow, while SQLite checkpointing provides session-based workflow persistence.
+
+---
+
+# Architecture
+
+## Current Architecture
+
+```text
+                         Customer
+                            │
+                            ▼
+                    React Chat Interface
+                            │
+                            ▼
+                       FastAPI API
+                            │
+                            ▼
+                       LangGraph
+                            │
+                            ▼
+                         Query
+                            │
+                            ▼
+                         Cache
+                     ┌──────┴──────┐
+                     │             │
+                 Cache Hit      Cache Miss
+                     │             │
+                     │             ▼
+                     │       Hybrid Retrieval
+                     │             │
+                     │       ┌─────┴─────┐
+                     │       │           │
+                     │       ▼           ▼
+                     │    Chroma       BM25
+                     │   Vector       Keyword
+                     │   Search       Search
+                     │       │           │
+                     │       └─────┬─────┘
+                     │             ▼
+                     │            RRF
+                     │             │
+                     │             ▼
+                     │        Top K Chunks
+                     │             │
+                     │             ▼
+                     │          OpenRouter
+                     │             │
+                     │             ▼
+                     │        Generated Answer
+                     │             │
+                     └─────────────┤
+                                   ▼
+                           React Chat Interface
 ```
 
 ---
 
-#  Features
+# Key Features
 
-## AI Customer Support
+## 1. AI Customer Support
 
-The chatbot answers customer questions using information retrieved from the Holiday knowledge base.
+The chatbot answers customer questions using information retrieved from the HolidayBreakz knowledge base.
 
-## RAG Pipeline
+The assistant is instructed to avoid inventing company-specific information that is not available in the knowledge base.
 
-The application uses Retrieval-Augmented Generation to retrieve relevant company information before sending context to the LLM.
+---
 
-This helps the assistant generate answers based on available company information instead of relying only on the model's general knowledge.
+# 2. Retrieval-Augmented Generation
 
-## Vector Search
+The application uses Retrieval-Augmented Generation instead of sending the user question directly to the LLM.
 
-Knowledge-base content is converted into embeddings and stored in **ChromaDB** for semantic similarity search.
-
-## OpenRouter Integration
-
-OpenRouter is used as the LLM API layer, allowing the application to work with supported AI models through a unified API.
-
-Current model:
+The process is:
 
 ```text
-openai/gpt-4o-mini
+User Question
+      ↓
+Retrieve Relevant Knowledge
+      ↓
+Build Context
+      ↓
+Send Context + Question to LLM
+      ↓
+Generate Answer
 ```
 
-## LangGraph Workflow
+This helps ground responses in company-provided information.
 
-LangGraph is used to organize the AI workflow into nodes and state.
+---
 
-Current workflow:
+# 3. Hybrid Retrieval
+
+The project uses two retrieval strategies:
 
 ```text
-START
-  ↓
-Retrieve
-  ↓
-LLM
-  ↓
-END
+                    User Query
+                        │
+              ┌─────────┴─────────┐
+              ▼                   ▼
+        Vector Search           BM25
+        Semantic Search       Keyword Search
+              │                   │
+              └─────────┬─────────┘
+                        ▼
+                       RRF
+                        │
+                        ▼
+                  Hybrid Results
 ```
 
-The workflow maintains structured state between nodes.
+This allows the system to benefit from both:
 
-## SQLite Checkpointing
+### Semantic Search
 
-The application uses LangGraph's SQLite checkpointing mechanism to persist workflow state associated with a `thread_id`.
+ChromaDB can retrieve documents based on the meaning of a question.
 
-The frontend generates a `session_id`, which is passed to the backend and used as the LangGraph thread identifier.
+For example:
 
 ```text
-Frontend
-   ↓
-session_id
-   ↓
-FastAPI
-   ↓
-LangGraph thread_id
-   ↓
-SQLite Checkpointer
+User:
+"When will I receive my money after cancellation?"
 ```
 
-The SQLite checkpoint database is stored locally and is intentionally excluded from Git.
-
-## FastAPI Backend
-
-FastAPI provides REST APIs for communication between the React frontend and the AI backend.
-
-Available endpoints:
+The vector retriever can understand that the question is related to:
 
 ```text
-GET  /
-GET  /health
-POST /chat
+refund processing time
 ```
 
-## React Chat Interface
+### BM25 Search
 
-The frontend provides a travel-agent-style floating chatbot interface.
+BM25 focuses on keyword overlap.
 
-## Voice Input
+For example:
 
-The frontend supports browser-based speech recognition where supported by the browser.
+```text
+refund
+cancellation
+7 days
+10 days
+```
 
-## Text-to-Speech
+This can be useful when the user's query contains important exact terms.
 
-AI responses can be spoken using the browser's speech synthesis functionality.
+---
 
-## Session ID
+# 4. BM25 Retrieval
 
-The frontend generates a session ID for each chat session.
+BM25 is implemented using the `rank-bm25` Python package.
+
+BM25 is a **lexical retrieval algorithm**, not an embedding model.
+
+The implementation tokenizes the knowledge-base chunks and calculates keyword-based relevance scores.
 
 Example:
 
-```json
-{
-  "message": "What is Refund Shield?",
-  "session_id": "example-session-id"
-}
+```python
+from rank_bm25 import BM25Okapi
 ```
 
-The backend maps this session ID to the LangGraph `thread_id`.
-
-## Grounded Responses
-
-The assistant is instructed to avoid inventing information that is not available in the HolidayBreakz knowledge base.
+The same knowledge-base chunks used by the vector system are also used to build the BM25 index.
 
 ---
 
-#  RAG Architecture
+# 5. Reciprocal Rank Fusion (RRF)
 
-The RAG pipeline consists of several steps.
+The project combines vector-search results and BM25 results using **Reciprocal Rank Fusion**.
+
+Instead of directly adding Chroma similarity scores and BM25 scores, RRF combines the **ranking positions**.
+
+The basic formula is:
+
+```text
+RRF Score = 1 / (k + rank)
+```
+
+where:
+
+```text
+k = 60
+```
+
+Example:
+
+```text
+Vector Search:
+
+1. Chunk A
+2. Chunk B
+3. Chunk C
+
+
+BM25:
+
+1. Chunk C
+2. Chunk A
+3. Chunk D
+```
+
+The documents appearing highly in both rankings receive a stronger combined RRF score.
+
+The final ranking becomes:
+
+```text
+Vector Results
+      +
+BM25 Results
+      ↓
+RRF Fusion
+      ↓
+Final Ranked Documents
+```
+
+---
+
+# 6. Stable Chunk IDs
+
+Each knowledge-base chunk receives a stable identifier during ingestion.
+
+Example:
+
+```text
+kb_000
+kb_001
+kb_002
+kb_003
+...
+```
+
+These IDs are stored in document metadata.
+
+Example:
+
+```python
+chunk.metadata["chunk_id"] = f"kb_{index:03d}"
+```
+
+Stable chunk IDs are useful for:
+
+- Hybrid retrieval
+- RRF ranking
+- Retrieval evaluation
+- Recall@K
+- Precision@K
+- MRR
+- Debugging
+- Comparing retrieval strategies
+
+---
+
+# 7. Query Caching
+
+The project includes a caching layer to avoid repeating expensive processing for identical or repeated queries.
+
+Conceptually:
+
+```text
+User Query
+    ↓
+Normalize Query
+    ↓
+Check Cache
+    │
+    ├── Cache Hit
+    │      ↓
+    │   Return Cached Result
+    │
+    └── Cache Miss
+           ↓
+      Hybrid Retrieval
+           ↓
+           LLM
+           ↓
+      Store Result
+           ↓
+      Return Answer
+```
+
+Caching can help reduce:
+
+- Repeated retrieval operations
+- Repeated LLM calls
+- API usage
+- Response latency for repeated queries
+
+A production implementation can use a persistent cache such as Redis, while a local development implementation can use an in-memory or file-based cache.
+
+---
+
+# 8. Vector Search
+
+Knowledge-base content is converted into embeddings and stored in **ChromaDB**.
+
+Current embedding model:
+
+```text
+text-embedding-3-small
+```
+
+The embedding API is accessed through OpenRouter's compatible API endpoint.
+
+Conceptually:
+
+```text
+Knowledge Base
+      ↓
+Text Chunk
+      ↓
+Embedding Model
+      ↓
+Numerical Vector
+      ↓
+ChromaDB
+```
+
+---
+
+# 9. Retrieval Configuration
+
+Current chunking configuration:
+
+```text
+chunk_size = 700
+chunk_overlap = 100
+```
+
+Current retrieval configuration:
+
+```text
+top_k = 4
+```
+
+The hybrid retriever retrieves results from:
+
+```text
+Chroma
++
+BM25
+```
+
+and then applies RRF to produce the final ranked documents.
+
+---
+
+# RAG Pipeline
 
 ## Step 1 — Knowledge Base
 
@@ -172,92 +398,185 @@ backend/documents/knowledge_base.txt
 
 ## Step 2 — Document Loading
 
-The knowledge base is loaded using LangChain's document loader.
+The knowledge base is loaded using a LangChain document loader.
 
 ---
 
 ## Step 3 — Text Chunking
 
-The document is divided into smaller chunks.
+The document is divided into smaller chunks using:
 
-Current configuration:
+```text
+RecursiveCharacterTextSplitter
+```
+
+Configuration:
 
 ```text
 chunk_size = 700
 chunk_overlap = 100
 ```
 
-Chunking makes the document easier to search semantically.
-
 ---
 
-## Step 4 — Embeddings
+## Step 4 — Chunk IDs
 
-Each text chunk is converted into a numerical vector representation using an embedding model.
-
-Conceptually:
+Each chunk receives a stable ID:
 
 ```text
-"How can I cancel my booking?"
-              ↓
-       Embedding Model
-              ↓
-       Numerical Vector
+kb_000
+kb_001
+kb_002
+...
 ```
 
 ---
 
-## Step 5 — ChromaDB
+## Step 5 — Embeddings
 
-The embeddings are stored in ChromaDB.
+Each chunk is converted into an embedding vector.
+
+```text
+Text
+ ↓
+Embedding Model
+ ↓
+Vector
+```
+
+---
+
+## Step 6 — ChromaDB
+
+The vectors are stored in ChromaDB.
 
 ```text
 ChromaDB
 │
-├── Chunk 1 → Vector
-├── Chunk 2 → Vector
-├── Chunk 3 → Vector
+├── kb_000 → Vector
+├── kb_001 → Vector
+├── kb_002 → Vector
 ├── ...
-└── Chunk N → Vector
+└── kb_041 → Vector
 ```
 
 ---
 
-## Step 6 — Retrieval
+## Step 7 — BM25 Index
 
-When a customer asks a question, the system searches ChromaDB for the most relevant information.
-
-Current configuration:
+The same text chunks are indexed using BM25.
 
 ```text
-k = 4
+Knowledge Base Chunks
+        ↓
+Tokenization
+        ↓
+BM25 Index
 ```
-
-This means the retriever attempts to return the top 4 relevant chunks.
 
 ---
 
-## Step 7 — LLM Generation
+## Step 8 — Hybrid Retrieval
 
-The retrieved information is passed to the LLM through OpenRouter.
+When the user asks a question:
 
 ```text
-HolidayBreakz Knowledge
-          +
+Question
+   │
+   ├───────────────┐
+   ▼               ▼
+Chroma            BM25
+Vector Search     Keyword Search
+   │               │
+   └───────┬───────┘
+           ▼
+          RRF
+           ▼
+       Top K Chunks
+```
+
+---
+
+## Step 9 — Context Construction
+
+The selected chunks are combined into context.
+
+```text
+Chunk 1
+   +
+Chunk 2
+   +
+Chunk 3
+   +
+Chunk 4
+   ↓
+Context
+```
+
+---
+
+## Step 10 — LLM Generation
+
+The retrieved context and customer question are passed to the LLM.
+
+```text
 Customer Question
-          ↓
-        LLM
-          ↓
-       Answer
+        +
+Retrieved Context
+        ↓
+      OpenRouter
+        ↓
+      LLM Answer
 ```
 
 ---
 
-#  LangGraph Workflow
+# LangGraph Workflow
 
-The AI workflow uses structured state.
+LangGraph is used to organize the AI workflow into structured nodes and state.
 
-Conceptually:
+Current conceptual workflow:
+
+```text
+START
+  ↓
+Retrieve
+  ↓
+LLM
+  ↓
+END
+```
+
+The retrieval node now conceptually performs:
+
+```text
+Query
+ ↓
+Cache Check
+ ↓
+Hybrid Retrieval
+ ↓
+RRF
+ ↓
+Context
+```
+
+The workflow can later be expanded with:
+
+- Retry handling
+- Fallback retrieval
+- Conditional routing
+- Tool calling
+- Human-in-the-loop review
+- Supervisor agents
+- External APIs
+- Validation nodes
+
+---
+
+# Agent State
+
+The LangGraph state can contain information such as:
 
 ```text
 AgentState
@@ -265,43 +584,160 @@ AgentState
 ├── user_question
 ├── context
 ├── answer
+├── session_id
 └── error
 ```
 
-The workflow currently contains:
-
-```text
-START
-  ↓
-retrieve
-  ↓
-llm
-  ↓
-END
-```
-
-The LangGraph architecture provides a foundation for adding additional agent capabilities such as:
-
-- Retry handling
-- Fallback handling
-- Conditional routing
-- Additional tools
-- Human/supervisor review
-- More complex agent workflows
+This structured state allows additional nodes to be added without redesigning the complete application.
 
 ---
 
-#  Checkpointing & Session Management
+# Retrieval Evaluation
 
-The application uses SQLite-based LangGraph checkpointing.
+The project can evaluate retrieval quality using standard Information Retrieval metrics.
 
-The checkpoint database is created locally:
+The main metrics are:
+
+## Recall@K
+
+Measures how many of the relevant chunks were retrieved.
+
+```text
+Recall@K =
+Relevant Retrieved Documents
+-----------------------------
+Total Relevant Documents
+```
+
+Example:
+
+```text
+Relevant chunks:
+kb_001
+kb_007
+
+Retrieved Top 4:
+kb_001
+kb_003
+kb_007
+kb_010
+```
+
+Then:
+
+```text
+Recall@4 = 2 / 2 = 1.0
+```
+
+---
+
+## Precision@K
+
+Measures how many retrieved documents are actually relevant.
+
+```text
+Precision@K =
+Relevant Retrieved Documents
+-----------------------------
+K
+```
+
+For example:
+
+```text
+2 relevant documents
+4 retrieved documents
+
+Precision@4 = 2 / 4 = 0.5
+```
+
+---
+
+## Hit Rate@K
+
+Measures whether at least one relevant document appears in the top K results.
+
+```text
+Hit Rate@K =
+1 if at least one relevant chunk is retrieved
+0 otherwise
+```
+
+---
+
+## MRR
+
+Mean Reciprocal Rank measures how high the first relevant document appears.
+
+Example:
+
+```text
+Rank 1 → 1/1 = 1.0
+Rank 2 → 1/2 = 0.5
+Rank 3 → 1/3 = 0.333
+```
+
+For multiple questions, the reciprocal ranks can be averaged.
+
+---
+
+# Retrieval Evaluation Dataset
+
+A manually labeled evaluation dataset can be created for representative customer questions.
+
+Example:
+
+```json
+[
+  {
+    "question": "What is the refund policy?",
+    "relevant_chunk_ids": [
+      "kb_007",
+      "kb_012"
+    ]
+  },
+  {
+    "question": "How long does a refund take?",
+    "relevant_chunk_ids": [
+      "kb_012"
+    ]
+  }
+]
+```
+
+The same evaluation dataset can be used to compare:
+
+```text
+Vector Search
+      vs
+BM25
+      vs
+Hybrid + RRF
+```
+
+Example evaluation table:
+
+| Retriever | Recall@4 | Precision@4 | Hit Rate@4 | MRR |
+|---|---:|---:|---:|---:|
+| Vector | - | - | - | - |
+| BM25 | - | - | - | - |
+| Hybrid RRF | - | - | - | - |
+
+The purpose of this evaluation is to measure whether combining retrieval methods improves retrieval performance on the project's evaluation dataset.
+
+---
+
+# SQLite Checkpointing
+
+The application uses LangGraph's SQLite checkpointing mechanism to persist workflow state.
+
+The local checkpoint database is:
 
 ```text
 backend/holidaybreakz_checkpoints.db
 ```
 
-SQLite-related runtime files may also be created:
+SQLite runtime files may include:
 
 ```text
 holidaybreakz_checkpoints.db
@@ -309,70 +745,211 @@ holidaybreakz_checkpoints.db-shm
 holidaybreakz_checkpoints.db-wal
 ```
 
-These files are ignored by Git using:
-
-```gitignore
-*.db
-*.db-shm
-*.db-wal
-```
-
-The database should **not** be committed to GitHub.
+These files are excluded from Git.
 
 ---
 
-#  Technologies Used
+# Session Management
 
-## Backend
+The frontend generates a session ID.
 
-- Python
-- FastAPI
-- Uvicorn
-- LangChain
-- LangGraph
-- ChromaDB
-- OpenRouter
-- Pydantic
-- SQLite
+Example:
 
-## Frontend
+```json
+{
+  "message": "What is Refund Shield?",
+  "session_id": "example-session-id"
+}
+```
+
+The backend maps the session ID to the LangGraph thread ID.
+
+```text
+React
+  ↓
+session_id
+  ↓
+FastAPI
+  ↓
+thread_id
+  ↓
+LangGraph
+  ↓
+SQLite Checkpointer
+```
+
+This allows workflow state to persist across messages within a session.
+
+---
+
+# FastAPI Backend
+
+FastAPI provides communication between the React frontend and AI backend.
+
+Available endpoints:
+
+```text
+GET  /
+GET  /health
+POST /chat
+```
+
+---
+
+# React Frontend
+
+The frontend is built using:
 
 - React
 - Vite
 - JavaScript
 - CSS
-- Browser Speech Recognition API
-- Browser Speech Synthesis API
 
-## AI / RAG
+The interface provides a travel-agent-style floating customer-support chatbot.
 
-- Retrieval-Augmented Generation
-- Text Embeddings
-- Vector Similarity Search
-- Large Language Models
-- Semantic Retrieval
-- LangGraph State Management
-- SQLite Checkpointing
+Features include:
+
+- Chat interface
+- Session ID generation
+- Quick actions
+- Voice input
+- Text-to-speech
+- Typing/response effects
+- API integration with FastAPI
 
 ---
 
-#  Project Structure
+# Voice Input
+
+Browser Speech Recognition is used where supported.
+
+Conceptually:
+
+```text
+User Speech
+    ↓
+Browser Speech Recognition
+    ↓
+Text
+    ↓
+FastAPI
+    ↓
+AI Assistant
+```
+
+---
+
+# Text-to-Speech
+
+AI responses can be spoken using the browser's Speech Synthesis API.
+
+```text
+AI Response
+    ↓
+Browser Speech Synthesis
+    ↓
+Spoken Response
+```
+
+---
+
+# API Flow
+
+The frontend sends requests to:
+
+```text
+POST /chat
+```
+
+Example request:
+
+```json
+{
+  "message": "How can I cancel my HolidayBreakz booking?",
+  "session_id": "example-session-id"
+}
+```
+
+Example response:
+
+```json
+{
+  "answer": "AI-generated answer based on the HolidayBreakz knowledge base."
+}
+```
+
+---
+
+# Complete Request Flow
+
+```text
+User Question
+      ↓
+React Frontend
+      ↓
+POST /chat
+      ↓
+FastAPI
+      ↓
+LangGraph
+      ↓
+Cache Check
+      │
+      ├── Hit ───────────────┐
+      │                      │
+      └── Miss                │
+            ↓                │
+       Hybrid Retrieval      │
+            ↓                │
+      ┌─────┴─────┐          │
+      ↓           ↓          │
+   Chroma        BM25        │
+   Vector       Keyword      │
+      ↓           ↓          │
+      └─────┬─────┘          │
+            ↓                │
+           RRF               │
+            ↓                │
+       Top K Chunks          │
+            ↓                │
+       OpenRouter LLM        │
+            ↓                │
+        Cache Result ────────┘
+            ↓
+       Final Answer
+            ↓
+      React Interface
+```
+
+---
+
+# Project Structure
 
 ```text
 Customer_SupportRAG/
 │
 ├── backend/
+│   │
 │   ├── documents/
 │   │   └── knowledge_base.txt
 │   │
 │   ├── rag/
-│   │   └── ingest.py
+│   │   ├── __init__.py
+│   │   ├── ingest.py
+│   │   ├── retriever.py
+│   │   ├── bm25_retriever.py
+│   │   └── hybrid_retriever.py
 │   │
+│   ├── evaluation/
+│   │   └── eval_dataset.json
+│   │
+│   ├── cache.py
 │   ├── agent.py
 │   ├── main.py
 │   ├── requirements.txt
 │   ├── .env
-│   └── chroma_db/
+│   ├── chroma_db/
+│   └── holidaybreakz_checkpoints.db
 │
 ├── frontend/
 │   ├── src/
@@ -383,13 +960,11 @@ Customer_SupportRAG/
 └── README.md
 ```
 
-> The SQLite checkpoint database is generated locally at runtime and is not stored in the repository.
-
 ---
 
-#  Installation
+# Installation
 
-## 1. Clone the Repository
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/priyadixit123/Customer_SupportRAG.git
@@ -398,9 +973,9 @@ cd Customer_SupportRAG
 
 ---
 
-#  Backend Setup
+# Backend Setup
 
-Go to the backend directory:
+Go to the backend:
 
 ```bash
 cd backend
@@ -424,9 +999,35 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+For BM25 support:
+
+```bash
+pip install rank-bm25
+```
+
 ---
 
-#  Environment Variables
+# Important Python Packages
+
+The project uses:
+
+```text
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+langchain-text-splitters
+chromadb
+rank-bm25
+python-dotenv
+langgraph
+```
+
+---
+
+# Environment Variables
 
 Create:
 
@@ -442,31 +1043,19 @@ OPENROUTER_MODEL=openai/gpt-4o-mini
 CHROMA_PATH=./chroma_db
 ```
 
-**Never commit your real API key to GitHub.**
-
-The following files/directories should be ignored:
-
-```gitignore
-.env
-venv/
-__pycache__/
-chroma_db/
-*.db
-*.db-shm
-*.db-wal
-```
+Never commit your real API key.
 
 ---
 
-#  Build the RAG Database
+# Build the RAG Database
 
 From the backend directory:
 
 ```bash
-python rag/ingest.py
+python -m rag.ingest
 ```
 
-The ingestion process:
+The ingestion pipeline is:
 
 ```text
 knowledge_base.txt
@@ -475,20 +1064,64 @@ Document Loader
        ↓
 Text Splitter
        ↓
+Stable Chunk IDs
+       ↓
 Embeddings
        ↓
 ChromaDB
 ```
 
-After successful ingestion, the Chroma vector database will be available in:
+The same chunks are subsequently used for BM25 retrieval.
+
+---
+
+# Test Hybrid Retrieval
+
+From the backend directory:
+
+```bash
+python -m rag.retriever
+```
+
+The test performs:
 
 ```text
-backend/chroma_db/
+User Query
+     ↓
+Vector Search
+     +
+BM25 Search
+     ↓
+RRF
+     ↓
+Top K Results
+```
+
+Example query:
+
+```text
+What is the refund policy?
+```
+
+The output can include:
+
+```text
+Rank: 1
+Chunk ID: kb_007
+RRF Score: ...
+
+Rank: 2
+Chunk ID: kb_012
+RRF Score: ...
+
+Rank: 3
+Chunk ID: kb_003
+RRF Score: ...
 ```
 
 ---
 
-#  Start the Backend
+# Start Backend
 
 From:
 
@@ -522,7 +1155,7 @@ http://127.0.0.1:8000/health
 
 ---
 
-#  Frontend Setup
+# Frontend Setup
 
 Open another terminal.
 
@@ -538,128 +1171,197 @@ Install dependencies:
 npm install
 ```
 
-Start the React development server:
+Start Vite:
 
 ```bash
 npm run dev
 ```
 
-Vite will provide a local URL, normally similar to:
+The frontend will normally be available at:
 
 ```text
 http://localhost:5173/
 ```
 
-Open the URL in your browser.
-
 ---
 
-#  API Flow
+# Security
 
-The frontend sends a request to:
+The project follows these security practices:
 
-```text
-POST /chat
-```
+- API keys are stored in environment variables
+- `.env` is excluded from Git
+- OpenRouter credentials are never exposed to React
+- ChromaDB is generated locally
+- SQLite checkpoint databases are not committed
+- Virtual environments are excluded from Git
 
-### Example Request
+Recommended `.gitignore`:
 
-```json
-{
-  "message": "How can I cancel my HolidayBreakz booking?",
-  "session_id": "example-session-id"
-}
-```
+```gitignore
+.env
+venv/
+__pycache__/
+*.pyc
 
-### Example Response
+chroma_db/
 
-```json
-{
-  "answer": "AI-generated answer based on the Holiday knowledge base."
-}
-```
+*.db
+*.db-shm
+*.db-wal
 
----
-
-#  Complete Request Flow
-
-```text
-User asks a question
-        ↓
-React Frontend
-        ↓
-POST /chat
-        ↓
-FastAPI
-        ↓
-session_id
-        ↓
-LangGraph thread_id
-        ↓
-Retrieve relevant documents
-        ↓
-ChromaDB
-        ↓
-Knowledge Base Context
-        ↓
-OpenRouter LLM
-        ↓
-Generated Answer
-        ↓
-FastAPI Response
-        ↓
-React Chat Interface
+node_modules/
+dist/
 ```
 
 ---
 
-#  Security Notes
-
-- Never commit `.env`
-- Never expose the OpenRouter API key in the React frontend
-- Never commit the ChromaDB directory
-- Never commit SQLite checkpoint databases
-- Keep API credentials in environment variables
-
----
-
-#  Future Improvements
+# Future Improvements
 
 Planned improvements include:
 
-- Retry policies for failed AI/tool calls
-- Conditional fallback handling
-- More advanced LangGraph routing
-- Additional external tools/APIs
-- Supervisor/manager agent
+## Retrieval
+
+- BM25 tuning
+- Hybrid retrieval optimization
+- Reranking
+- Cross-encoder reranking
+- Metadata filtering
+- Query expansion
+- Multi-query retrieval
+
+## Evaluation
+
+- Recall@K
+- Precision@K
+- Hit Rate@K
+- MRR
+- nDCG@K
+- Context relevance
+- Faithfulness
+- Answer relevance
+- Automated RAG evaluation
+
+## Agentic AI
+
+- Conditional LangGraph routing
+- Retry and fallback nodes
+- Tool calling
+- Supervisor agent
 - Human-in-the-loop workflows
-- Better conversational memory
-- Persistent production database
-- Authentication and authorization
+- External travel APIs
+- Flight information tools
+- Weather tools
+- Booking tools
+
+## Infrastructure
+
+- Redis caching
+- PostgreSQL persistence
+- Docker
 - Production deployment
-- Monitoring and logging
+- Authentication
+- Authorization
+- Monitoring
+- Logging
+- Observability
 
 ---
 
-#  Project Purpose
+# Technologies Used
 
-This project demonstrates practical implementation of:
+## Backend
+
+- Python
+- FastAPI
+- Uvicorn
+- LangChain
+- LangGraph
+- ChromaDB
+- OpenRouter
+- Pydantic
+- SQLite
+
+## Retrieval
+
+- RAG
+- Text Embeddings
+- Vector Similarity Search
+- BM25
+- Hybrid Retrieval
+- Reciprocal Rank Fusion
+- Retrieval Evaluation
+
+## Frontend
+
+- React
+- Vite
+- JavaScript
+- CSS
+- Browser Speech Recognition API
+- Browser Speech Synthesis API
+
+## AI
+
+- Large Language Models
+- Retrieval-Augmented Generation
+- Semantic Search
+- Lexical Search
+- Hybrid Search
+- LangGraph State Management
+- Query Caching
+
+---
+
+# Project Purpose
+
+This project demonstrates practical implementation of a production-oriented customer-support RAG architecture:
 
 ```text
-RAG
-+
-Vector Database
-+
-LLM
-+
-LangGraph
+React
 +
 FastAPI
 +
-React
+LangGraph
 +
-Session Management
+RAG
++
+ChromaDB
++
+Vector Search
++
+BM25
++
+Hybrid Search
++
+RRF
++
+Caching
++
+OpenRouter
 +
 SQLite Checkpointing
++
+Retrieval Evaluation
 ```
 
+The project demonstrates not only how to build a RAG chatbot, but also how to improve and evaluate its retrieval pipeline using multiple retrieval strategies.
+
+---
+
+# Learning & Engineering Goals
+
+The project is designed to demonstrate understanding of:
+
+1. How RAG works
+2. How vector databases work
+3. How embeddings are generated
+4. How semantic retrieval works
+5. How BM25 performs keyword retrieval
+6. Why hybrid retrieval can combine semantic and lexical signals
+7. How RRF combines ranked retrieval results
+8. How caching can reduce repeated computation
+9. How LangGraph manages AI workflows
+10. How SQLite checkpointing maintains session state
+11. How FastAPI connects AI backends to frontend applications
+12. How retrieval quality can be measured using Recall@K, Precision@K, Hit Rate and MRR
