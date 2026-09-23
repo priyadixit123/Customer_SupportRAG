@@ -128,29 +128,3 @@ def retrieve_context(query: str):
     return "\n\n---\n\n".join(context_parts)
 
 
-if __name__ == "__main__":
-
-    query = "What is the refund policy?"
-
-    results = hybrid_retriever.search(
-        query,
-        k=4
-    )
-
-    print("\nHYBRID RESULTS\n")
-
-    for rank, result in enumerate(results, start=1):
-
-        document = result["document"]
-
-        print(f"\nRank: {rank}")
-        print(
-            f"Chunk ID: "
-            f"{document.metadata.get('chunk_id')}"
-        )
-        print(
-            f"RRF Score: {result['score']}"
-        )
-        print(
-            document.page_content[:300]
-        )
