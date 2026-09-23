@@ -1,4 +1,4 @@
-# Holiday AI Customer Support Assistant
+# Holiday AI Customer Support RAG Agent
 
 An AI-powered customer support assistant for **HolidayBreakz** built using **RAG (Retrieval-Augmented Generation), Hybrid Search, BM25, ChromaDB, LangChain, LangGraph, FastAPI, React, OpenRouter, and caching**.
 
