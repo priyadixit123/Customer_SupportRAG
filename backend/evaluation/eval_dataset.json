@@ -1,0 +1,170 @@
+[
+  {
+    "question": "What does a seat ancillary include?",
+    "relevant_chunk_ids": ["kb_001", "kb_002"]
+  },
+  {
+    "question": "What does seat selection not automatically include?",
+    "relevant_chunk_ids": ["kb_003"]
+  },
+  {
+    "question": "How can I select a seat while booking?",
+    "relevant_chunk_ids": ["kb_004"]
+  },
+  {
+    "question": "How can I select a seat after booking?",
+    "relevant_chunk_ids": ["kb_005"]
+  },
+  {
+    "question": "Can I change or remove my seat?",
+    "relevant_chunk_ids": ["kb_006"]
+  },
+  {
+    "question": "How much does a window seat cost?",
+    "relevant_chunk_ids": ["kb_008"]
+  },
+  {
+    "question": "What does baggage ancillary include?",
+    "relevant_chunk_ids": ["kb_009", "kb_010"]
+  },
+  {
+    "question": "What does baggage ancillary not automatically include?",
+    "relevant_chunk_ids": ["kb_011"]
+  },
+  {
+    "question": "How can I add baggage while booking?",
+    "relevant_chunk_ids": ["kb_011"]
+  },
+  {
+    "question": "How can I add baggage after booking?",
+    "relevant_chunk_ids": ["kb_012"]
+  },
+  {
+    "question": "Can baggage be removed and refunded?",
+    "relevant_chunk_ids": ["kb_013"]
+  },
+  {
+    "question": "What is the baggage policy for connecting flights?",
+    "relevant_chunk_ids": ["kb_014", "kb_015"]
+  },
+  {
+    "question": "How much does a checked bag cost?",
+    "relevant_chunk_ids": ["kb_016"]
+  },
+  {
+    "question": "What does meal ancillary include?",
+    "relevant_chunk_ids": ["kb_017", "kb_018"]
+  },
+  {
+    "question": "What does a meal request not automatically include?",
+    "relevant_chunk_ids": ["kb_019"]
+  },
+  {
+    "question": "How can I add a meal while booking?",
+    "relevant_chunk_ids": ["kb_020"]
+  },
+  {
+    "question": "How can I add a meal after booking?",
+    "relevant_chunk_ids": ["kb_021"]
+  },
+  {
+    "question": "Can I change or remove a meal?",
+    "relevant_chunk_ids": ["kb_022"]
+  },
+  {
+    "question": "How much does a pre-ordered meal cost?",
+    "relevant_chunk_ids": ["kb_024"]
+  },
+  {
+    "question": "What is Cancellation Protection?",
+    "relevant_chunk_ids": ["kb_025"]
+  },
+  {
+    "question": "What does Cancellation Protection include?",
+    "relevant_chunk_ids": ["kb_026"]
+  },
+  {
+    "question": "What does Cancellation Protection not automatically include?",
+    "relevant_chunk_ids": ["kb_026"]
+  },
+  {
+    "question": "How can I buy Cancellation Protection?",
+    "relevant_chunk_ids": ["kb_027"]
+  },
+  {
+    "question": "Can Cancellation Protection be added after booking?",
+    "relevant_chunk_ids": ["kb_028"]
+  },
+  {
+    "question": "How can Cancellation Protection be removed?",
+    "relevant_chunk_ids": ["kb_029"]
+  },
+  {
+    "question": "How do I use Cancellation Protection?",
+    "relevant_chunk_ids": ["kb_030"]
+  },
+  {
+    "question": "What is Refund Shield?",
+    "relevant_chunk_ids": ["kb_031"]
+  },
+  {
+    "question": "What does Refund Shield include?",
+    "relevant_chunk_ids": ["kb_032"]
+  },
+  {
+    "question": "What does Refund Shield not automatically include?",
+    "relevant_chunk_ids": ["kb_032"]
+  },
+  {
+    "question": "How can I add Refund Shield?",
+    "relevant_chunk_ids": ["kb_033"]
+  },
+  {
+    "question": "Can Refund Shield be added after booking?",
+    "relevant_chunk_ids": ["kb_034"]
+  },
+  {
+    "question": "How can Refund Shield be removed?",
+    "relevant_chunk_ids": ["kb_034"]
+  },
+  {
+    "question": "How can I request a Refund Shield refund?",
+    "relevant_chunk_ids": ["kb_035"]
+  },
+  {
+    "question": "What reasons may be covered by Refund Shield?",
+    "relevant_chunk_ids": ["kb_036"]
+  },
+  {
+    "question": "How much does Refund Shield cost?",
+    "relevant_chunk_ids": ["kb_036"]
+  },
+  {
+    "question": "What should the chatbot check before giving a price?",
+    "relevant_chunk_ids": ["kb_037"]
+  },
+  {
+    "question": "What should the chatbot check when an ancillary is confirmed?",
+    "relevant_chunk_ids": ["kb_037"]
+  },
+  {
+    "question": "Can I add an ancillary after booking?",
+    "relevant_chunk_ids": ["kb_038"]
+  },
+  {
+    "question": "Will I get a refund for an ancillary?",
+    "relevant_chunk_ids": ["kb_038"]
+  },
+  {
+    "question": "What should the chatbot do for a multi-airline itinerary?",
+    "relevant_chunk_ids": ["kb_039"]
+  },
+  {
+    "question": "What should the chatbot check for a protection claim?",
+    "relevant_chunk_ids": ["kb_039"]
+  },
+  {
+    "question": "What should the chatbot do when information is not available?",
+    "relevant_chunk_ids": ["kb_040", "kb_041"]
+  }
+]

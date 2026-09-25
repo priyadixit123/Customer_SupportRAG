@@ -87,7 +87,7 @@ for index, chunk in enumerate(chunks):
     chunk.metadata["chunk_id"] = f"kb_{index:03d}"
 
 
-print(f"Loaded {len(chunks)} chunks for BM25.")
+
 
 
 # =========================================================
@@ -110,21 +110,24 @@ hybrid_retriever = HybridRetriever(
 # Existing Vector Retrieval
 # =========================================================
 
-def retrieve_context(query: str):
+def retrieve_context(query: str, k: int = 4):
 
-    documents = retriever.invoke(query)
+    results = hybrid_retriever.search(query, k=k)
 
-    if not documents:
+    if not results:
         return ""
 
     context_parts = []
 
-    for document in documents:
-
-        context_parts.append(
-            document.page_content
-        )
+    for result in results:
+        document = result["document"]
+        context_parts.append(document.page_content)
 
     return "\n\n---\n\n".join(context_parts)
 
-
+def retrieve_documents(query: str, k: int = 4):
+    """
+    Returns retrieved Document objects with RRF scores.
+    Used for evaluation.
+    """
+    return hybrid_retriever.search(query, k=k)

@@ -88,7 +88,7 @@ def retrieve_node(state: AgentState):
     try:
         question = state["user_question"]
 
-        context = retrieve_context(question)
+        context = retrieve_context(question, k=4)
 
         return {
             "context": context,
