@@ -112,16 +112,34 @@ hybrid_retriever = HybridRetriever(
 
 def retrieve_context(query: str, k: int = 4):
 
-    results = hybrid_retriever.search(query, k=k)
+    results = hybrid_retriever.search(
+        query,
+        k=8
+    )
 
     if not results:
         return ""
 
+    documents = [
+        result["document"]
+        for result in results
+    ]
+
+    reranked_results = reranker.rerank(
+        query,
+        documents,
+        k=k
+    )
+
     context_parts = []
 
-    for result in results:
+    for result in reranked_results:
+
         document = result["document"]
-        context_parts.append(document.page_content)
+
+        context_parts.append(
+            document.page_content
+        )
 
     return "\n\n---\n\n".join(context_parts)
 
