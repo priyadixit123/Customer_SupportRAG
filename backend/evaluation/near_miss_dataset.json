@@ -1,0 +1,72 @@
+[
+  {
+    "pair_id": "nm_001",
+    "specific_question": "What is Refund Shield?",
+    "specific_relevant_chunk_ids": ["kb_031"],
+    "generic_question": "How can I request a refund?",
+    "generic_relevant_chunk_ids": ["kb_035"]
+  },
+  {
+    "pair_id": "nm_002",
+    "specific_question": "What does Refund Shield include?",
+    "specific_relevant_chunk_ids": ["kb_032"],
+    "generic_question": "Will I get a refund for an ancillary?",
+    "generic_relevant_chunk_ids": ["kb_038"]
+  },
+  {
+    "pair_id": "nm_003",
+    "specific_question": "How much does Refund Shield cost?",
+    "specific_relevant_chunk_ids": ["kb_036"],
+    "generic_question": "Will I get a refund for an ancillary?",
+    "generic_relevant_chunk_ids": ["kb_038"]
+  },
+  {
+    "pair_id": "nm_004",
+    "specific_question": "What is Cancellation Protection?",
+    "specific_relevant_chunk_ids": ["kb_025"],
+    "generic_question": "Can I cancel an ancillary?",
+    "generic_relevant_chunk_ids": ["kb_038"]
+  },
+  {
+    "pair_id": "nm_005",
+    "specific_question": "How do I use Cancellation Protection?",
+    "specific_relevant_chunk_ids": ["kb_030"],
+    "generic_question": "How do I cancel an ancillary?",
+    "generic_relevant_chunk_ids": ["kb_038"]
+  },
+  {
+    "pair_id": "nm_006",
+    "specific_question": "What seat options can I select?",
+    "specific_relevant_chunk_ids": ["kb_002"],
+    "generic_question": "Can I change or remove my seat?",
+    "generic_relevant_chunk_ids": ["kb_006"]
+  },
+  {
+    "pair_id": "nm_007",
+    "specific_question": "How much does a checked bag cost?",
+    "specific_relevant_chunk_ids": ["kb_016"],
+    "generic_question": "How can I add baggage after booking?",
+    "generic_relevant_chunk_ids": ["kb_012"]
+  },
+  {
+    "pair_id": "nm_008",
+    "specific_question": "How much does a pre-ordered meal cost?",
+    "specific_relevant_chunk_ids": ["kb_024"],
+    "generic_question": "How can I add a meal after booking?",
+    "generic_relevant_chunk_ids": ["kb_021"]
+  },
+  {
+    "pair_id": "nm_009",
+    "specific_question": "What is the baggage policy for connecting flights?",
+    "specific_relevant_chunk_ids": ["kb_014"],
+    "generic_question": "What does baggage ancillary include?",
+    "generic_relevant_chunk_ids": ["kb_009", "kb_010"]
+  },
+  {
+    "pair_id": "nm_010",
+    "specific_question": "What should I do for a multi-airline itinerary?",
+    "specific_relevant_chunk_ids": ["kb_039"],
+    "generic_question": "What does baggage ancillary include?",
+    "generic_relevant_chunk_ids": ["kb_009", "kb_010"]
+  }
+]

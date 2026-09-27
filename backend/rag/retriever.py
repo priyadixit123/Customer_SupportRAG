@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
+from .reranker import Reranker
+
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
@@ -103,8 +105,10 @@ print("Loaded chunks for BM25.")
 
 hybrid_retriever = HybridRetriever(
     vector_retriever=retriever,
-    bm25_retriever=bm25
+    bm25_retriever=bm25,
+    
 )
+reranker = Reranker()
 
 # =========================================================
 # Existing Vector Retrieval

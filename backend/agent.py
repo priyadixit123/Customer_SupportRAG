@@ -9,7 +9,7 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.types import RetryPolicy
 from langgraph.checkpoint.sqlite import SqliteSaver
 
-from rag.retriever import retrieve_context
+from rag.retrieval_pipeline import retrieve_all
 
 from cache import (
     get_query_embedding,
@@ -86,9 +86,17 @@ class AgentState(TypedDict):
 def retrieve_node(state: AgentState):
 
     try:
+
         question = state["user_question"]
 
-        context = retrieve_context(question, k=4)
+        # ==========================================
+        # FINAL RETRIEVAL PIPELINE
+        # ==========================================
+
+        context = retrieve_all(
+            question,
+            k=4
+        )
 
         return {
             "context": context,
@@ -101,7 +109,6 @@ def retrieve_node(state: AgentState):
             "context": "",
             "error": str(e)
         }
-
 
 # --------------------------------------------------
 # LLM NODE
@@ -271,14 +278,16 @@ def ask_agent(
 
 
     result = graph.invoke(
-        {
-            "user_question": user_question,
-            "context": "",
-            "answer": "",
-            "error": ""
-        },
-        config=config
-    )
+    {
+        "user_question": user_question,
+        "conversation_history": "",
+        "topic": "",
+        "context": "",
+        "answer": "",
+        "error": ""
+    },
+    config=config
+)
 
 
     answer = result["answer"]
