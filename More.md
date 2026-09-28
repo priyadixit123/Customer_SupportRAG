@@ -2234,11 +2234,8 @@ LangGraph
 
 ---
 
-# 60. MY INTERVIEW ANSWER
+# 60. Explain your HolidayBreakz project
 
-If an interviewer asks:
-
-## "Explain your HolidayBreakz project."
 
 I would say:
 
