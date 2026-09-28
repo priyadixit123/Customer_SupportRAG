@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What seat options are available?",
+    "expected": "relevant"
+  },
+  {
+    "question": "How can I select a seat after booking?",
+    "expected": "relevant"
+  },
+  {
+    "question": "What baggage options are available?",
+    "expected": "relevant"
+  },
+  {
+    "question": "How can I add baggage after booking?",
+    "expected": "relevant"
+  },
+  {
+    "question": "What is Refund Shield?",
+    "expected": "relevant"
+  },
+  {
+    "question": "What does Cancellation Protection cover?",
+    "expected": "relevant"
+  },
+  {
+    "question": "What is the weather on Mars today?",
+    "expected": "unknown"
+  },
+  {
+    "question": "Who is the president of the United States?",
+    "expected": "unknown"
+  },
+  {
+    "question": "What is the population of India?",
+    "expected": "unknown"
+  },
+  {
+    "question": "How do I cook pasta?",
+    "expected": "unknown"
+  }
+]

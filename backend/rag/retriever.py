@@ -116,13 +116,13 @@ reranker = Reranker()
 
 def retrieve_context(query: str, k: int = 4):
 
-    results = hybrid_retriever.search(
-        query,
-        k=8
-    )
+    results = hybrid_retriever.search(query, k=8)
 
     if not results:
-        return ""
+        return {
+            "context": "",
+            "score": None
+        }
 
     documents = [
         result["document"]
@@ -135,6 +135,12 @@ def retrieve_context(query: str, k: int = 4):
         k=k
     )
 
+    if not reranked_results:
+        return {
+            "context": "",
+            "score": None
+        }
+
     context_parts = []
 
     for result in reranked_results:
@@ -145,7 +151,12 @@ def retrieve_context(query: str, k: int = 4):
             document.page_content
         )
 
-    return "\n\n---\n\n".join(context_parts)
+    best_score = reranked_results[0]["score"]
+
+    return {
+        "context": "\n\n---\n\n".join(context_parts),
+        "score": best_score
+    }
 
 def retrieve_documents(query: str, k: int = 4):
     """

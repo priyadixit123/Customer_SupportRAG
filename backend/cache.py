@@ -155,6 +155,16 @@ def save_cache(
     answer: str
 ):
 
+    fallback_message = (
+        "Please contact HolidayBreakz support "
+        "for the most accurate information."
+    )
+
+    # Do not cache fallback responses
+    if not answer or fallback_message in answer:
+        print("CACHE SKIP | fallback answer")
+        return
+
     connection.execute(
         """
         INSERT INTO semantic_cache

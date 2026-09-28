@@ -75,6 +75,8 @@ class AgentState(TypedDict):
     conversation_history: str
     topic: str
     context: str
+    confidence: str
+    route: str
     answer: str
     error: str
 
@@ -84,30 +86,27 @@ class AgentState(TypedDict):
 # --------------------------------------------------
 
 def retrieve_node(state: AgentState):
-
     try:
-
         question = state["user_question"]
 
-        # ==========================================
-        # FINAL RETRIEVAL PIPELINE
-        # ==========================================
-
-        context = retrieve_all(
+        result = retrieve_all(
             question,
             k=4
         )
 
         return {
-            "context": context,
-            "error": ""
+            "context": result["context"],
+            "confidence": result["confidence"],
+            "route": result["route"],
+            "error": "",
         }
 
     except Exception as e:
-
         return {
             "context": "",
-            "error": str(e)
+            "confidence": "low",
+            "route": "",
+            "error": str(e),
         }
 
 # --------------------------------------------------
@@ -182,44 +181,38 @@ checkpointer = SqliteSaver(connection)
 
 builder = StateGraph(AgentState)
 
-builder.add_node(
-    "retrieve",
-    retrieve_node
-)
-
+builder.add_node("retrieve", retrieve_node)
 builder.add_node(
     "llm",
     llm_node,
-    retry_policy=RetryPolicy(
-        max_attempts=3
+    retry_policy=RetryPolicy(max_attempts=3)
+)
+builder.add_node("fallback", fallback_node)
+
+builder.add_edge(START, "retrieve")
+
+def route_after_retrieval(state: AgentState):
+
+    if state["error"]:
+        print(
+            "LANGGRAPH ROUTE | fallback | retrieval error"
+        )
+        return "fallback"
+
+    if state["confidence"] == "high":
+        print(
+            "LANGGRAPH ROUTE | llm"
+        )
+        return "llm"
+
+    print(
+        "LANGGRAPH ROUTE | fallback | low confidence"
     )
-)
 
-builder.add_node(
-    "fallback",
-    fallback_node
-)
+    return "fallback"
 
-
-# --------------------------------------------------
-# GRAPH FLOW
-# --------------------------------------------------
-
-builder.add_edge(
-    START,
-    "retrieve"
-)
-
-builder.add_edge(
-    "retrieve",
-    "llm"
-)
-
-builder.add_edge(
-    "llm",
-    END
-)
-
+builder.add_edge("llm", END)
+builder.add_edge("fallback", END)
 
 # --------------------------------------------------
 # COMPILE GRAPH
@@ -280,11 +273,13 @@ def ask_agent(
     result = graph.invoke(
     {
         "user_question": user_question,
-        "conversation_history": "",
-        "topic": "",
-        "context": "",
-        "answer": "",
-        "error": ""
+    "conversation_history": "",
+    "topic": "",
+    "context": "",
+    "confidence": "low",
+    "route": "",
+    "answer": "",
+    "error": ""
     },
     config=config
 )
