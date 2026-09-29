@@ -10,6 +10,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from .bm25_retriever import BM25Retriever
 from .hybrid_retriever import HybridRetriever
+from .multi_query import generate_queries
 
 
 
@@ -116,19 +117,44 @@ reranker = Reranker()
 
 def retrieve_context(query: str, k: int = 4):
 
-    results = hybrid_retriever.search(query, k=8)
+    queries = generate_queries(query)
 
-    if not results:
+    all_results = []
+
+    for search_query in queries:
+
+        results = hybrid_retriever.search(
+            search_query,
+            k=8
+        )
+
+        all_results.extend(results)
+
+    if not all_results:
         return {
             "context": "",
             "score": None
         }
 
-    documents = [
-        result["document"]
-        for result in results
-    ]
+    # Remove duplicate documents
+    unique_documents = {}
 
+    for result in all_results:
+
+        document = result["document"]
+
+        doc_id = document.metadata.get(
+            "chunk_id",
+            document.page_content
+        )
+
+        unique_documents[doc_id] = document
+
+    documents = list(
+        unique_documents.values()
+    )
+
+    # CrossEncoder reranking
     reranked_results = reranker.rerank(
         query,
         documents,
@@ -153,10 +179,15 @@ def retrieve_context(query: str, k: int = 4):
 
     best_score = reranked_results[0]["score"]
 
+    print(
+        f"BEST RERANKER SCORE | {best_score:.3f}"
+    )
+
     return {
         "context": "\n\n---\n\n".join(context_parts),
         "score": best_score
     }
+
 
 def retrieve_documents(query: str, k: int = 4):
     """
