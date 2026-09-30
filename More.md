@@ -162,37 +162,7 @@ Sometimes they disagreed.
 
 Vector search and BM25 returned different rankings.
 
-Example:
 
-|
-Vector
-
-|
-
-BM25
-
-|
-| --- | --- |
-|
-
-Seat
-
-|
-
-Refund Shield
-
-|
-|
-
-Seat
-
-|
-
-Seat
-
-|
-
-Which ranking should we trust?
 
 ### Solution
 
@@ -333,73 +303,7 @@ Generic:
 
 This tested whether retrieval confused similar concepts.
 
-### Result
 
-|
-Method
-
-|
-
-Specific
-
-|
-
-Generic
-
-|
-| --- | --- | --- |
-|
-
-Vector
-
-|
-
-90%
-
-|
-
-60%
-
-|
-|
-
-BM25
-
-|
-
-70%
-
-|
-
-80%
-
-|
-|
-
-Hybrid
-
-|
-
-90%
-
-|
-
-90%
-
-|
-|
-
-Reranked
-
-|
-
-100%
-
-|
-
-100%
-
-|
 
 ### Why this matters
 
@@ -553,44 +457,7 @@ Graph
 Both
 ```
 
-### Example
 
-|
-Question
-
-|
-
-Route
-
-|
-| --- | --- |
-|
-
-Seat options
-
-|
-
-Both
-
-|
-|
-
-Graph relationships
-
-|
-
-Graph
-
-|
-|
-
-General refund
-
-|
-
-RAG
-
-|
 
 ### Why?
 
@@ -684,35 +551,6 @@ That's false.
 
 Use CrossEncoder score.
 
-Example:
-
-|
-Question
-
-|
-
-Score
-
-|
-| --- | --- |
-|
-
-Seat
-
-|
-
-2.827
-
-|
-|
-
-Mars
-
-|
-
--11.191
-
-|
 
 Threshold:
 
@@ -1586,4 +1424,425 @@ Best reranker score:
 ### Result
 
 Higher chance of finding the correct chunk even when wording changes.
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+# Phase 5 — Evaluation Dataset (Measure Retrieval Quality)
+
+## Why do we need evaluation?
+
+Imagine you add BM25, RRF, and CrossEncoder.
+
+How do you know they actually improved retrieval?
+
+Without evaluation, you're only guessing.
+
+Example:
+
+```
+Before:
+"Can I choose my seat after booking?"
+
+Retrieved:
+Seat Price ❌
+
+After:
+Retrieved:
+Seat Selection After Booking ✅
+```
+
+Instead of saying "it feels better," we measure it with numbers.
+
+# Step 1 — Create a Ground Truth Dataset
+
+This is called the ground truth because you manually define the correct answer.
+
+Example file:
+
+```
+backend/evaluation/retrieval_dataset.json
+```
+
+Example:
+
+JSON
+
+```
+[
+  {
+    "question": "Can I choose my seat after booking?",
+    "relevant_chunk_ids": ["kb_004"]
+  },
+  {
+    "question": "What is Refund Shield?",
+    "relevant_chunk_ids": ["kb_031"]
+  },
+  {
+    "question": "How can I add baggage after booking?",
+    "relevant_chunk_ids": ["kb_012"]
+  }
+]
+```
+
+### Why?
+
+You already assigned chunk IDs during ingestion:
+
+Python
+
+Run
+
+```
+chunk.metadata["chunk_id"] = f"kb_{index:03d}"
+```
+
+Now every question knows which chunk is correct.
+
+# Step 2 — Retrieve Documents
+
+Instead of asking the LLM,
+
+test only retrieval.
+
+Example:
+
+Python
+
+Run
+
+```
+results = retrieve_documents(question, k=4)
+```
+
+Returned:
+
+```
+kb_004
+kb_006
+kb_001
+kb_009
+```
+
+Now compare with:
+
+```
+Expected:
+kb_004
+```
+
+# Step 3 — Compare Expected vs Retrieved
+
+This is where metrics come in.
+
+Example:
+
+Expected:
+
+```
+kb_004
+```
+
+Retrieved:
+
+```
+kb_004
+kb_006
+kb_001
+kb_009
+```
+
+Correct.
+
+Another example:
+
+Expected:
+
+```
+kb_031
+```
+
+Retrieved:
+
+```
+kb_033
+kb_032
+kb_031
+kb_034
+```
+
+Still useful,
+
+but the correct answer is third.
+
+That's why we need multiple metrics.
+
+# Step 4 — Recall@K
+
+![Evaluation Measures in Information Retrieval | Pinecone](https://images.openai.com/static-rsc-4/ndF0s4Tuc63Vs6jc_tqfhMrgEJ0ckpGFtFguRIYpWDpn2KSZKfQ-Hqj8A6f1zZuXWlK_7op32iUSDGxLr87Ceu_jCcVfE7195_LBbV7lJGiajUWXi9YJBAjTW4flB7hKoqkmaB8X_dJ3aiLsXDkd6S9VmMf1ve4LLN0z933sbOk?purpose=inline)
+
+### What does it ask?
+
+> Did we retrieve the correct chunk anywhere in the top K?
+
+Formula:
+
+Relevant RetrievedRelevant Total\frac{\text{Relevant Retrieved}}{\text{Relevant Total}}Relevant TotalRelevant Retrieved
+
+Example:
+
+Expected:
+
+```
+kb_031
+```
+
+Retrieved:
+
+```
+kb_033
+kb_032
+kb_031
+kb_034
+```
+
+Top 4 contains the correct chunk.
+
+Recall@4:
+
+1.01.01.0
+
+### Why?
+
+Customer doesn't care if it's first or third.
+
+The LLM still has a chance to use it.
+
+# Step 5 — Precision@K
+
+![Evaluation Measures in Information Retrieval | Pinecone](https://images.openai.com/static-rsc-4/Tl6NRDmjr6NBQSlEgT5wpmyVzH2jveLhD3CkqBNz5eNdsW7YxlDNwxyf3aErzkcslIZUUu8Q-ElY8SN0fMNm5uOFFkteM8SgAsaHRO8LPzGZzDg5NoFSd5Ke7a-8bV-HYYaGUC8ohmbXR1PDj7vSKKL4bGndgDAn2G721AmTMLA?purpose=inline)
+
+### What does it ask?
+
+> How many retrieved documents were actually useful?
+
+Formula:
+
+Relevant RetrievedRetrieved Total\frac{\text{Relevant Retrieved}}{\text{Retrieved Total}}Retrieved TotalRelevant Retrieved
+
+Example:
+
+Retrieved:
+
+```
+4 documents
+```
+
+Only one is correct.
+
+Precision:
+
+14=0.25\frac{1}{4}=0.2541=0.25
+
+### Why?
+
+High precision means less irrelevant context reaches the LLM.
+
+# Step 6 — Hit Rate
+
+![Understanding RAG Evaluation: A Practical Approach to Retrieval Metrics](https://images.openai.com/static-rsc-4/3BXZBZpsVE2rTi55_-s_JFRwSk8bcLK0XefSVcm-g3PoaWX7rra1_Tl8mjncAGptuVHLmpHK4XUpaCptQcipUAv_QOVsQhfLVgiKDAvr_hEPSybDWFKiokjchujeGZps5IUQawie1BYp876Yj1pL5JP6Eo2nPTr-kUs7OaTpj0s?purpose=inline)
+
+This is the easiest metric.
+
+Question:
+
+> Did we get at least one correct document?
+
+Example:
+
+Expected:
+
+```
+kb_012
+```
+
+Retrieved:
+
+```
+kb_012
+kb_013
+```
+
+Hit:
+
+```
+YES
+```
+
+Hit Rate becomes:
+
+111
+
+# Step 7 — MRR (Mean Reciprocal Rank)
+
+![RAG评估必备 | Recall@K、MRR、NDCG 三指标，一文彻底讲透-腾讯云开发者社区-腾讯云](https://images.openai.com/static-rsc-4/bVijklNNIjOWl8LYdDf8cA5WYlWgdYasBLjFXhc8ujoae5HFhA3jvl7gsuD8nuNjUcbjQLFdtY6sV3q-jJkOCSDv_WrqVIifEFm6n8fLxKT7xVsmpS3ZqujMREZerL5U-JnnuJdiXNDF1ie4lao9axD8nSSDhrt_ylegY99H6Hk?purpose=inline)
+
+This measures:
+
+> How early does the correct document appear?
+
+Formula:
+
+1rank\frac{1}{rank}rank1
+
+
+Example:
+
+Expected:
+
+```
+kb_031
+```
+
+Retrieved:
+
+```
+kb_033
+kb_032
+kb_031
+```
+
+Correct answer is third.
+
+MRR:
+
+13=0.33\frac{1}{3}=0.3331=0.33
+
+Higher MRR means better ordering.
+
+# Step 8 — Near-Miss Evaluation
+
+![How to improve search without looking at queries or results - Canva Engineering Blog](https://images.openai.com/static-rsc-4/S2J3UbyWUF0e2VI4hWOduJ2MSwFGyfdcNsI9HPSQSFirq8CJtudbnAtcN3E2-gErK2qUFrYfFc350fY_tuQguzDtry-acCXx-u2NZQbN5iITpi76cAqgVBgv57x1DRe237skfm3B_MQICAUYjN-I_lRBoEtZ_YJlE6pltwu_AiI?purpose=inline)
+
+This was your first advanced evaluation.
+
+### Why?
+
+Some questions look almost identical.
+
+Example:
+
+Specific:
+
+```
+What is Refund Shield?
+```
+
+Generic:
+
+```
+How can I request a refund?
+```
+
+A weak retriever may confuse them.
+
+### Dataset
+
+JSON
+
+```
+{
+  "specific_question": "What is Refund Shield?",
+  "specific_relevant_chunk_ids": ["kb_031"],
+  "generic_question": "How can I request a refund?",
+  "generic_relevant_chunk_ids": ["kb_035"]
+}
+```
+
+
+
+# Step 9 — Confidence Evaluation
+
+![Hongru (Merlin) Wang](https://images.openai.com/static-rsc-4/B5pXOOoBSUqLDrePrCYcknnqBtltKhrWgrVqg4tZSf6kHR8hQYLlcEMicgytyWlqqcJxLDG4mRBL6ovg2nHx6BNxzEXAufPBuffi13-MJwIPk3K8bJQ30JcUT1KPwqc-bxYvcda-7vNZgIhTewVZ38EITVhZbdrU0fHQIbzr-e8?purpose=inline)
+
+After adding the confidence layer,
+
+you created:
+
+```
+confidence_dataset.json
+```
+
+Example:
+
+JSON
+
+```
+{
+  "question": "What is the weather on Mars?",
+  "expected": "unknown"
+}
+```
+
+Your system produced:
+
+```
+Score:
+-11.191
+```
+
+Threshold:
+
+```
+1.0
+```
+
+Result:
+
+```
+LOW
+```
+
+
+
+# Step 10 — Evaluation Script
+
+![Generative AI with SAP. RAG Evaluations - SAP Community](https://images.openai.com/static-rsc-4/1ibKQondhuv6uw6pQUOu9l1BO7YvZ1C3tYGXLmZubky0b8aBpO1JFgrSFm7a5Uh6KYWlJYu1vOY8kfoJbqN8CejKenLJ3DgYwk7JiSFKyXveZm8TVg7K8X4sKYI-tdY5ig25bHFNJybq38JTnmTeD0eoxP1y6xu-hfNH2BWoGZc?purpose=inline)
+
+Every evaluator follows the same pattern.
+
+```
+Load Dataset
+      ↓
+Run Retriever
+      ↓
+Get Retrieved Chunk IDs
+      ↓
+Compare with Expected Chunk IDs
+      ↓
+Calculate Metrics
+      ↓
+Print Report
+```
+
+Simplified code:
+
+Python
+
+Run
+
+```
+for item in dataset:
+
+    question = item["question"]
+
+    expected = item["relevant_chunk_ids"]
+
+    retrieved = retrieve_documents(question)
+
+    compare(expected, retrieved)
+```
+
+
 
