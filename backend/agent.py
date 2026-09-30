@@ -77,6 +77,7 @@ class AgentState(TypedDict):
     context: str
     confidence: str
     route: str
+    sources: list
     answer: str
     error: str
 
@@ -98,6 +99,7 @@ def retrieve_node(state: AgentState):
             "context": result["context"],
             "confidence": result["confidence"],
             "route": result["route"],
+            "sources": result.get("sources", []),
             "error": "",
         }
 
@@ -106,6 +108,7 @@ def retrieve_node(state: AgentState):
             "context": "",
             "confidence": "low",
             "route": "",
+            "sources": [],
             "error": str(e),
         }
 
@@ -117,6 +120,7 @@ def llm_node(state: AgentState):
 
     context = state["context"]
     question = state["user_question"]
+    sources = state.get("sources", [])
 
     # If retrieval failed
     if not context.strip():
@@ -138,14 +142,52 @@ CUSTOMER QUESTION:
 {question}
 
 Answer the customer based strictly on the knowledge base.
+
+Rules for the answer:
+- Do not mention internal technical details.
+- Do not invent information.
+- Keep the answer concise.
 """
 
     response = llm.invoke(prompt)
 
+    answer = response.content.strip()
+
+    # --------------------------------------------------
+    # Add source information
+    # --------------------------------------------------
+
+    if sources:
+
+        source_lines = []
+
+        for source in sources:
+
+            chunk_id = source.get(
+                "chunk_id",
+                "unknown"
+            )
+
+            section = source.get(
+                "section",
+                "General"
+            )
+
+            source_lines.append(
+                f"- {section} ({chunk_id})"
+            )
+
+        answer += (
+            "\n\nSources:\n"
+            + "\n".join(source_lines)
+        )
+
     return {
-        "answer": response.content,
+        "answer": answer,
         "error": ""
     }
+
+
 
 
 # --------------------------------------------------
@@ -273,13 +315,14 @@ def ask_agent(
     result = graph.invoke(
     {
         "user_question": user_question,
-    "conversation_history": "",
-    "topic": "",
-    "context": "",
-    "confidence": "low",
-    "route": "",
-    "answer": "",
-    "error": ""
+       "conversation_history": "",
+        "topic": "",
+       "context": "",
+       "confidence": "low",
+       "route": "",
+       "answer": "",
+       "sources": [],
+       "error": ""
     },
     config=config
 )

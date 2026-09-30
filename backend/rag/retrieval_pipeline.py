@@ -16,6 +16,7 @@ class FinalRetrievalPipeline:
 
         context_parts = []
         scores = []
+        sources = []
 
         # NORMAL RAG
         if route in ["rag", "both"]:
@@ -27,6 +28,9 @@ class FinalRetrievalPipeline:
 
             rag_context = rag_result["context"]
             rag_score = rag_result["score"]
+            rag_sources = rag_result.get("sources", [])
+
+            sources.extend(rag_sources)
 
             if rag_context.strip():
                 context_parts.append(
@@ -71,7 +75,8 @@ class FinalRetrievalPipeline:
             return {
                 "context": "",
                 "confidence": "low",
-                "route": route
+                "route": route,
+                "sources": []
             }
 
         # For Graph-only queries, graph evidence itself
@@ -85,7 +90,8 @@ class FinalRetrievalPipeline:
             return {
                 "context": final_context,
                 "confidence": "high",
-                "route": route
+                "route": route,
+                "sources": sources
             }
 
         # For normal RAG, use CrossEncoder score.
@@ -102,7 +108,8 @@ class FinalRetrievalPipeline:
                 return {
                     "context": final_context,
                     "confidence": "high",
-                    "route": route
+                    "route": route,
+                    "sources": sources
                 }
 
             print(
@@ -112,7 +119,8 @@ class FinalRetrievalPipeline:
             return {
                 "context": "",
                 "confidence": "low",
-                "route": route
+                "route": route,
+                "sources": []
             }
 
         print(
@@ -122,7 +130,8 @@ class FinalRetrievalPipeline:
         return {
             "context": "",
             "confidence": "low",
-            "route": route
+            "route": route,
+            "sources": []
         }
 
 

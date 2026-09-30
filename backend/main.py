@@ -30,12 +30,15 @@ app.add_middleware(
 # --------------------------------------------------
 
 class ChatRequest(BaseModel):
+
     message: str
     session_id: str
 
 
 class ChatResponse(BaseModel):
+
     answer: str
+    sources: list
 
 
 # --------------------------------------------------
@@ -44,6 +47,7 @@ class ChatResponse(BaseModel):
 
 @app.get("/")
 def root():
+
     return {
         "status": "online",
         "service": "HolidayBreakz OpenRouter RAG"
@@ -56,6 +60,7 @@ def root():
 
 @app.get("/health")
 def health():
+
     return {
         "status": "healthy"
     }
@@ -69,18 +74,32 @@ def health():
     "/chat",
     response_model=ChatResponse
 )
-def chat(request: ChatRequest):
+def chat(
+    request: ChatRequest
+):
 
     try:
-        answer = ask_agent(
+
+        result = ask_agent(
             request.message,
             request.session_id
         )
 
+
         return {
-            "answer": answer
+            "answer": result["answer"],
+            "sources": result.get(
+                "sources",
+                []
+            )
         }
 
+
     except Exception as e:
-        print("CHAT ERROR:", repr(e))
+
+        print(
+            "CHAT ERROR:",
+            repr(e)
+        )
+
         raise e
