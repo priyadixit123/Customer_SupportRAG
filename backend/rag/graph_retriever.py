@@ -1,55 +1,11 @@
-import os
-from pathlib import Path
-
-from dotenv import load_dotenv
-from neo4j import GraphDatabase
+from graph.neo4j_client import Neo4jClient
 
 
 # =========================================================
-# Load environment variables
+# Neo4j Client
 # =========================================================
 
-BASE_DIR = Path(__file__).resolve().parents[1]
-
-ENV_FILE = BASE_DIR / ".env"
-load_dotenv(ENV_FILE)
-
-
-
-
-# =========================================================
-# Neo4j Configuration
-# =========================================================
-
-NEO4J_URI = os.getenv("NEO4J_URI")
-NEO4J_USERNAME = os.getenv("NEO4J_USERNAME")
-NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
-NEO4J_DATABASE = os.getenv(
-    "NEO4J_DATABASE",
-    "neo4j"
-)
-
-if not NEO4J_URI:
-    raise ValueError("NEO4J_URI is missing")
-
-if not NEO4J_USERNAME:
-    raise ValueError("NEO4J_USERNAME is missing")
-
-if not NEO4J_PASSWORD:
-    raise ValueError("NEO4J_PASSWORD is missing")
-
-
-# =========================================================
-# Neo4j Driver
-# =========================================================
-
-driver = GraphDatabase.driver(
-    NEO4J_URI,
-    auth=(
-        NEO4J_USERNAME,
-        NEO4J_PASSWORD
-    )
-)
+neo4j_client = Neo4jClient()
 
 
 # =========================================================
@@ -97,7 +53,7 @@ class GraphRetriever:
 
 
         # -------------------------------------------------
-        # Query Neo4j
+        # Cypher query
         # -------------------------------------------------
 
         cypher = """
@@ -107,16 +63,20 @@ class GraphRetriever:
         AND $entity_type IN labels(a)
 
         RETURN
-    a.name AS entity,
-    labels(a)[0] AS entity_type,
-    type(r) AS relationship,
-    labels(x)[0] AS target_type,
-    x.name AS target
+            a.name AS entity,
+            labels(a)[0] AS entity_type,
+            type(r) AS relationship,
+            labels(x)[0] AS target_type,
+            x.name AS target
         """
 
 
-        with driver.session(
-            database=NEO4J_DATABASE
+        # -------------------------------------------------
+        # Execute query
+        # -------------------------------------------------
+
+        with neo4j_client.driver.session(
+            database=neo4j_client.database
         ) as session:
 
             result = session.run(
@@ -133,7 +93,6 @@ class GraphRetriever:
         # -------------------------------------------------
 
         graph_results = []
-
 
         for record in records:
 
@@ -158,7 +117,7 @@ graph_retriever = GraphRetriever()
 
 
 # =========================================================
-# Test
+# Direct Test
 # =========================================================
 
 if __name__ == "__main__":
@@ -172,7 +131,6 @@ if __name__ == "__main__":
     )
 
     print()
-
     print("GRAPH RESULTS")
     print("=" * 60)
 

@@ -320,25 +320,39 @@ def retrieve_context(
         )
 
 
+
+
+
+
         # Source information
-        sources.append({
+        source = {
 
             "chunk_id": document.metadata.get(
-                "chunk_id"
+                "chunk_id",
+                "unknown"
             ),
 
             "section": document.metadata.get(
-                "section"
+                "section",
+                "unknown"
             ),
 
             "topic": document.metadata.get(
-                "topic"
+                "topic",
+                "unknown"
             ),
 
             "source": document.metadata.get(
-                "source"
+                "source",
+
+
+
             )
-        })
+        }
+
+        sources.append(
+            source
+        )
 
 
     # -----------------------------------------------------
@@ -379,6 +393,8 @@ def retrieve_context(
     print(
         "CONTEXT COMPRESSION | completed"
     )
+
+    print( "RETRIEVER SOURCES |", sources )
 
 
     # -----------------------------------------------------

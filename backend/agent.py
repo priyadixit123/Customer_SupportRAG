@@ -1,3 +1,4 @@
+
 import os
 import sqlite3
 from typing import TypedDict
@@ -18,22 +19,28 @@ from cache import (
 )
 
 
-# --------------------------------------------------
+# =========================================================
 # ENVIRONMENT
-# --------------------------------------------------
+# =========================================================
 
 load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+
 OPENROUTER_MODEL = os.getenv(
     "OPENROUTER_MODEL",
     "openai/gpt-4o-mini"
 )
 
+if not OPENROUTER_API_KEY:
+    raise ValueError(
+        "OPENROUTER_API_KEY is missing in .env"
+    )
 
-# --------------------------------------------------
+
+# =========================================================
 # LLM
-# --------------------------------------------------
+# =========================================================
 
 llm = ChatOpenAI(
     model=OPENROUTER_MODEL,
@@ -47,28 +54,38 @@ llm = ChatOpenAI(
 )
 
 
-# --------------------------------------------------
+# =========================================================
 # SYSTEM PROMPT
-# --------------------------------------------------
+# =========================================================
 
 SYSTEM_PROMPT = """
 You are the HolidayBreakz customer support AI assistant.
 
 Rules:
+
 1. Answer only using the HolidayBreakz knowledge base.
 2. Never invent or assume information.
 3. If the knowledge base does not contain the answer,
    say:
+
    "Please contact HolidayBreakz support for the most accurate information."
+
 4. Keep answers concise and professional.
-5. Do not mention RAG, embeddings, vector database,
-   LangGraph, or internal implementation details.
+5. Do not mention:
+   - RAG
+   - embeddings
+   - vector database
+   - LangGraph
+   - BM25
+   - reranking
+   - Neo4j
+   - internal implementation details
 """
 
 
-# --------------------------------------------------
-# GRAPH STATE
-# --------------------------------------------------
+# =========================================================
+# LANGGRAPH STATE
+# =========================================================
 
 class AgentState(TypedDict):
     user_question: str
@@ -82,169 +99,132 @@ class AgentState(TypedDict):
     error: str
 
 
-# --------------------------------------------------
-# RETRIEVE NODE
-# --------------------------------------------------
+# =========================================================
+# RETRIEVAL NODE
+# =========================================================
 
 def retrieve_node(state: AgentState):
+
+    question = state["user_question"]
+
+    print("\n")
+    print("=" * 60)
+    print("LANGGRAPH RETRIEVE NODE")
+    print("=" * 60)
+
+    print(
+        "USER QUESTION |",
+        question
+    )
+
     try:
-        question = state["user_question"]
 
         result = retrieve_all(
             question,
             k=4
         )
 
+        context = result.get(
+            "context",
+            ""
+        )
+
+        confidence = result.get(
+            "confidence",
+            "low"
+        )
+
+        route = result.get(
+            "route",
+            ""
+        )
+
+        sources = result.get(
+            "sources",
+            []
+        )
+
+        print(
+            "RETRIEVED SOURCES |",
+            sources
+        )
+
+        print(
+            "RETRIEVED CONFIDENCE |",
+            confidence
+        )
+
+        print(
+            "RETRIEVED ROUTE |",
+            route
+        )
+
         return {
-            "context": result["context"],
-            "confidence": result["confidence"],
-            "route": result["route"],
-            "sources": result.get("sources", []),
-            "error": "",
+            "context": context,
+            "confidence": confidence,
+            "route": route,
+            "sources": sources,
+            "error": ""
         }
 
     except Exception as e:
+
+        print(
+            "RETRIEVAL ERROR |",
+            repr(e)
+        )
+
         return {
             "context": "",
             "confidence": "low",
             "route": "",
             "sources": [],
-            "error": str(e),
+            "error": str(e)
         }
 
-# --------------------------------------------------
-# LLM NODE
-# --------------------------------------------------
 
-def llm_node(state: AgentState):
+# =========================================================
+# ROUTE AFTER RETRIEVAL
+# =========================================================
 
-    context = state["context"]
-    question = state["user_question"]
-    sources = state.get("sources", [])
+def route_after_retrieval(
+    state: AgentState
+):
 
-    # If retrieval failed
-    if not context.strip():
+    error = state.get(
+        "error",
+        ""
+    )
 
-        return {
-            "answer": (
-                "Please contact HolidayBreakz support "
-                "for the most accurate information."
-            )
-        }
+    confidence = state.get(
+        "confidence",
+        "low"
+    )
 
-    prompt = f"""
-{SYSTEM_PROMPT}
+    sources = state.get(
+        "sources",
+        []
+    )
 
-HOLIDAYBREAKZ KNOWLEDGE BASE:
-{context}
+    print(
+        "ROUTER SOURCES |",
+        sources
+    )
 
-CUSTOMER QUESTION:
-{question}
+    if error:
 
-Answer the customer based strictly on the knowledge base.
-
-Rules for the answer:
-- Do not mention internal technical details.
-- Do not invent information.
-- Keep the answer concise.
-"""
-
-    response = llm.invoke(prompt)
-
-    answer = response.content.strip()
-
-    # --------------------------------------------------
-    # Add source information
-    # --------------------------------------------------
-
-    if sources:
-
-        source_lines = []
-
-        for source in sources:
-
-            chunk_id = source.get(
-                "chunk_id",
-                "unknown"
-            )
-
-            section = source.get(
-                "section",
-                "General"
-            )
-
-            source_lines.append(
-                f"- {section} ({chunk_id})"
-            )
-
-        answer += (
-            "\n\nSources:\n"
-            + "\n".join(source_lines)
-        )
-
-    return {
-        "answer": answer,
-        "error": ""
-    }
-
-
-
-
-# --------------------------------------------------
-# FALLBACK NODE
-# --------------------------------------------------
-
-def fallback_node(state: AgentState):
-
-    return {
-        "answer": (
-            "I'm unable to process your request right now. "
-            "Please contact HolidayBreakz support for the "
-            "most accurate information."
-        )
-    }
-
-
-# --------------------------------------------------
-# SQLITE CHECKPOINTER
-# --------------------------------------------------
-
-connection = sqlite3.connect(
-    "holidaybreakz_checkpoints.db",
-    check_same_thread=False
-)
-
-checkpointer = SqliteSaver(connection)
-
-
-# --------------------------------------------------
-# BUILD GRAPH
-# --------------------------------------------------
-
-builder = StateGraph(AgentState)
-
-builder.add_node("retrieve", retrieve_node)
-builder.add_node(
-    "llm",
-    llm_node,
-    retry_policy=RetryPolicy(max_attempts=3)
-)
-builder.add_node("fallback", fallback_node)
-
-builder.add_edge(START, "retrieve")
-
-def route_after_retrieval(state: AgentState):
-
-    if state["error"]:
         print(
             "LANGGRAPH ROUTE | fallback | retrieval error"
         )
+
         return "fallback"
 
-    if state["confidence"] == "high":
+    if confidence == "high":
+
         print(
             "LANGGRAPH ROUTE | llm"
         )
+
         return "llm"
 
     print(
@@ -253,57 +233,294 @@ def route_after_retrieval(state: AgentState):
 
     return "fallback"
 
-builder.add_edge("llm", END)
-builder.add_edge("fallback", END)
 
-# --------------------------------------------------
-# COMPILE GRAPH
-# --------------------------------------------------
+# =========================================================
+# LLM NODE
+# =========================================================
+
+def llm_node(state: AgentState):
+
+    context = state.get(
+        "context",
+        ""
+    )
+
+    question = state.get(
+        "user_question",
+        ""
+    )
+
+    sources = state.get(
+        "sources",
+        []
+    )
+
+    print(
+        "LLM NODE SOURCES |",
+        sources
+    )
+
+    # -----------------------------------------------------
+    # No context
+    # -----------------------------------------------------
+
+    if not context.strip():
+
+        return {
+            "answer": (
+                "Please contact HolidayBreakz support "
+                "for the most accurate information."
+            ),
+            "error": ""
+        }
+
+    # -----------------------------------------------------
+    # LLM PROMPT
+    # -----------------------------------------------------
+
+    prompt = f"""
+{SYSTEM_PROMPT}
+
+HOLIDAYBREAKZ KNOWLEDGE BASE:
+
+{context}
+
+CUSTOMER QUESTION:
+
+{question}
+
+Answer the customer based strictly on the knowledge base.
+
+Rules for the answer:
+
+- Do not mention internal technical details.
+- Do not invent information.
+- Do not add information that is not present
+  in the knowledge base.
+- Keep the answer concise.
+"""
+
+    try:
+
+        response = llm.invoke(
+            prompt
+        )
+
+        answer = response.content.strip()
+
+        print(
+            "LLM ANSWER GENERATED"
+        )
+
+        return {
+            "answer": answer,
+            "error": ""
+        }
+
+    except Exception as e:
+
+        print(
+            "LLM ERROR |",
+            repr(e)
+        )
+
+        return {
+            "answer": (
+                "Please contact HolidayBreakz support "
+                "for the most accurate information."
+            ),
+            "error": str(e)
+        }
+
+
+# =========================================================
+# FALLBACK NODE
+# =========================================================
+
+def fallback_node(state: AgentState):
+
+    sources = state.get(
+        "sources",
+        []
+    )
+
+    print(
+        "FALLBACK NODE SOURCES |",
+        sources
+    )
+
+    return {
+        "answer": (
+            "Please contact HolidayBreakz support "
+            "for the most accurate information."
+        ),
+        "error": ""
+    }
+
+
+# =========================================================
+# SQLITE CHECKPOINTER
+# =========================================================
+
+connection = sqlite3.connect(
+    "holidaybreakz_checkpoints.db",
+    check_same_thread=False
+)
+
+checkpointer = SqliteSaver(
+    connection
+)
+
+
+# =========================================================
+# BUILD LANGGRAPH
+# =========================================================
+
+builder = StateGraph(
+    AgentState
+)
+
+
+# ---------------------------------------------------------
+# Nodes
+# ---------------------------------------------------------
+
+builder.add_node(
+    "retrieve",
+    retrieve_node
+)
+
+builder.add_node(
+    "llm",
+    llm_node,
+    retry_policy=RetryPolicy(
+        max_attempts=3
+    )
+)
+
+builder.add_node(
+    "fallback",
+    fallback_node
+)
+
+
+# ---------------------------------------------------------
+# START
+# ---------------------------------------------------------
+
+builder.add_edge(
+    START,
+    "retrieve"
+)
+
+
+# ---------------------------------------------------------
+# Retrieval → LLM / Fallback
+# ---------------------------------------------------------
+
+builder.add_conditional_edges(
+    "retrieve",
+    route_after_retrieval,
+    {
+        "llm": "llm",
+        "fallback": "fallback"
+    }
+)
+
+
+# ---------------------------------------------------------
+# END
+# ---------------------------------------------------------
+
+builder.add_edge(
+    "llm",
+    END
+)
+
+builder.add_edge(
+    "fallback",
+    END
+)
+
+
+# =========================================================
+# COMPILE
+# =========================================================
 
 graph = builder.compile(
     checkpointer=checkpointer
 )
 
 
-# --------------------------------------------------
+# =========================================================
 # ASK AGENT
-# --------------------------------------------------
+# =========================================================
 
 def ask_agent(
     user_question: str,
     thread_id: str
 ):
 
-     # ------------------------------------------
-    # 1. Create query embedding
-    # ------------------------------------------
+    print("\n")
+    print("=" * 60)
+    print("ASK AGENT")
+    print("=" * 60)
+
+    print(
+        "QUESTION |",
+        user_question
+    )
+
+    # =====================================================
+    # 1. CREATE QUERY EMBEDDING
+    # =====================================================
 
     query_embedding = get_query_embedding(
         user_question
     )
 
 
-    # ------------------------------------------
-    # 2. Check semantic cache
-    # ------------------------------------------
+    # =====================================================
+    # 2. SEMANTIC CACHE
+    # =====================================================
 
-    cached_answer = find_cached_answer(
+    cached_result = find_cached_answer(
         query_embedding
     )
 
 
-    # ------------------------------------------
-    # 3. Return cached answer
-    # ------------------------------------------
+    # =====================================================
+    # 3. CACHE HIT
+    # =====================================================
 
-    if cached_answer:
+    if cached_result:
 
-        return cached_answer
+        cached_sources = cached_result.get(
+            "sources",
+            []
+        )
+
+        print(
+            "CACHE RETURN SOURCES |",
+            cached_sources
+        )
+
+        return {
+            "answer": cached_result.get(
+                "answer",
+                ""
+            ),
+            "sources": cached_sources
+        }
 
 
-    # ------------------------------------------
-    # 4. Cache MISS → Run LangGraph
-    # ------------------------------------------
+    # =====================================================
+    # 4. CACHE MISS → LANGGRAPH
+    # =====================================================
+
+    print(
+        "CACHE | MISS → running LangGraph"
+    )
 
     config = {
         "configurable": {
@@ -312,34 +529,85 @@ def ask_agent(
     }
 
 
-    result = graph.invoke(
-    {
+    # =====================================================
+    # 5. INITIAL GRAPH STATE
+    # =====================================================
+
+    initial_state = {
+
         "user_question": user_question,
-       "conversation_history": "",
+
+        "conversation_history": "",
+
         "topic": "",
-       "context": "",
-       "confidence": "low",
-       "route": "",
-       "answer": "",
-       "sources": [],
-       "error": ""
-    },
-    config=config
-)
+
+        "context": "",
+
+        "confidence": "low",
+
+        "route": "",
+
+        "sources": [],
+
+        "answer": "",
+
+        "error": ""
+    }
 
 
-    answer = result["answer"]
+    # =====================================================
+    # 6. RUN GRAPH
+    # =====================================================
+
+    result = graph.invoke(
+        initial_state,
+        config=config
+    )
 
 
-    # ------------------------------------------
-    # 5. Save answer in cache
-    # ------------------------------------------
+    # =====================================================
+    # 7. EXTRACT RESULT
+    # =====================================================
+
+    answer = result.get(
+        "answer",
+        ""
+    )
+
+    sources = result.get(
+        "sources",
+        []
+    )
+
+
+    print(
+        "GRAPH RESULT SOURCES |",
+        sources
+    )
+
+
+    # =====================================================
+    # 8. SAVE TO CACHE
+    # =====================================================
 
     save_cache(
         user_question,
         query_embedding,
-        answer
+        answer,
+        sources
     )
 
 
-    return answer
+    # =====================================================
+    # 9. FINAL RESPONSE
+    # =====================================================
+
+    print(
+        "FINAL AGENT SOURCES |",
+        sources
+    )
+
+    return {
+        "answer": answer,
+        "sources": sources
+    }

@@ -3,7 +3,7 @@ from .graph_retriever import graph_retriever
 from .query_router import detect_route
 
 
-CONFIDENCE_THRESHOLD = 1.0
+CONFIDENCE_THRESHOLD = 0.5
 
 
 class FinalRetrievalPipeline:
@@ -18,7 +18,10 @@ class FinalRetrievalPipeline:
         scores = []
         sources = []
 
-        # NORMAL RAG
+        # ----------------------------------------
+        # RAG RETRIEVAL
+        # ----------------------------------------
+
         if route in ["rag", "both"]:
 
             rag_result = retrieve_context(
@@ -26,46 +29,112 @@ class FinalRetrievalPipeline:
                 k=k
             )
 
-            rag_context = rag_result["context"]
-            rag_score = rag_result["score"]
-            rag_sources = rag_result.get("sources", [])
+            rag_context = rag_result.get(
+                "context",
+                ""
+            )
 
-            sources.extend(rag_sources)
+            rag_score = rag_result.get(
+                "score"
+            )
+
+            rag_sources = rag_result.get(
+                "sources",
+                []
+            )
+
+            print(
+                "RAG SOURCES |",
+                rag_sources
+            )
+
+            sources.extend(
+                rag_sources
+            )
+
+            print(
+                "PIPELINE SOURCES |",
+                sources
+            )
 
             if rag_context.strip():
+
                 context_parts.append(
-                    "KNOWLEDGE BASE:\n" + rag_context
+                    "KNOWLEDGE BASE:\n" +
+                    rag_context
                 )
 
             if rag_score is not None:
-                scores.append(rag_score)
+
+                scores.append(
+                    rag_score
+                )
 
                 print(
                     f"RAG SCORE | {rag_score:.3f}"
                 )
 
-        # NEO4J GRAPH RAG
+        # ----------------------------------------
+        # GRAPH RAG
+        # ----------------------------------------
+
         if route in ["graph", "both"]:
 
-            graph_results = graph_retriever.search(query)
+            try:
 
-            if graph_results:
-
-                graph_context = "\n".join(
-                    graph_results
+                graph_results = graph_retriever.search(
+                    query
                 )
 
-                if graph_context.strip():
-                    context_parts.append(
-                        "GRAPH INFORMATION:\n"
-                        + graph_context
+                if graph_results:
+
+                    graph_context = "\n".join(
+                        graph_results
                     )
+
+                    if graph_context.strip():
+
+                        context_parts.append(
+                            "GRAPH INFORMATION:\n" +
+                            graph_context
+                        )
+
+                        print(
+                            "GRAPH RETRIEVAL | SUCCESS"
+                        )
+
+            except Exception as e:
+
+                print(
+                    "GRAPH RETRIEVAL | FAILED"
+                )
+
+                print(
+                    "GRAPH ERROR |",
+                    repr(e)
+                )
+
+                print(
+                    "GRAPH FALLBACK | Continuing with RAG"
+                )
+
+        # ----------------------------------------
+        # FINAL CONTEXT
+        # ----------------------------------------
 
         final_context = "\n\n---\n\n".join(
             context_parts
         )
 
-        # Confidence decision
+        print(
+            "FINAL SOURCES BEFORE CONFIDENCE |",
+            sources
+        )
+
+        # ----------------------------------------
+        # NO CONTEXT
+        # ----------------------------------------
+
         if not final_context.strip():
 
             print(
@@ -79,12 +148,19 @@ class FinalRetrievalPipeline:
                 "sources": []
             }
 
-        # For Graph-only queries, graph evidence itself
-        # is considered usable evidence.
+        # ----------------------------------------
+        # GRAPH-ONLY ROUTE
+        # ----------------------------------------
+
         if route == "graph":
 
             print(
                 "RETRIEVAL CONFIDENCE | HIGH"
+            )
+
+            print(
+                "FINAL SOURCES |",
+                sources
             )
 
             return {
@@ -94,15 +170,25 @@ class FinalRetrievalPipeline:
                 "sources": sources
             }
 
-        # For normal RAG, use CrossEncoder score.
+        # ----------------------------------------
+        # RAG CONFIDENCE
+        # ----------------------------------------
+
         if scores:
 
-            best_score = max(scores)
+            best_score = max(
+                scores
+            )
 
             if best_score >= CONFIDENCE_THRESHOLD:
 
                 print(
                     "RETRIEVAL CONFIDENCE | HIGH"
+                )
+
+                print(
+                    "FINAL SOURCES |",
+                    sources
                 )
 
                 return {
@@ -123,6 +209,10 @@ class FinalRetrievalPipeline:
                 "sources": []
             }
 
+        # ----------------------------------------
+        # DEFAULT LOW CONFIDENCE
+        # ----------------------------------------
+
         print(
             "RETRIEVAL CONFIDENCE | LOW"
         )
@@ -138,7 +228,10 @@ class FinalRetrievalPipeline:
 retrieval_pipeline = FinalRetrievalPipeline()
 
 
-def retrieve_all(query: str, k: int = 4):
+def retrieve_all(
+    query: str,
+    k: int = 4
+):
 
     return retrieval_pipeline.search(
         query,
