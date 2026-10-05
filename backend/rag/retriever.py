@@ -20,12 +20,15 @@ load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-CHROMA_PATH = os.getenv(
-    "CHROMA_PATH",
-    "./chroma_db"
-)
+CHROMA_PATH = os.getenv("CHROMA_PATH", "./chroma_db")
 
-DOCUMENT_PATH = "./documents/knowledge_base.txt"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DOCUMENT_PATH = os.path.join(
+    BASE_DIR,
+    "documents",
+    "knowledge_base.txt"
+)
 
 
 # =========================================================

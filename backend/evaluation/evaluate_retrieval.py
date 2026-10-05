@@ -1,14 +1,23 @@
+import os
+import sys
 import json
 from pathlib import Path
 
-from rag.reranker import Reranker
+# =========================================================
+# Add backend folder to Python path
+# =========================================================
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+from rag.reranker import Reranker
 from rag.retriever import hybrid_retriever, retriever
 from rag.bm25_retriever import BM25Retriever
 
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
 
 # =========================================================
 # Configuration
@@ -25,8 +34,10 @@ RERANK_CANDIDATES = 8
 # Load BM25
 # =========================================================
 
+DOCUMENT_PATH = BASE_DIR / "documents" / "knowledge_base.txt"
+
 loader = TextLoader(
-    "./documents/knowledge_base.txt",
+    str(DOCUMENT_PATH),
     encoding="utf-8"
 )
 
@@ -68,9 +79,7 @@ reranker = Reranker()
 # Load Evaluation Dataset
 # =========================================================
 
-BASE_DIR = Path(__file__).resolve().parent
-
-DATASET_PATH = BASE_DIR / "eval_dataset.json"
+DATASET_PATH = Path(__file__).resolve().parent / "eval_dataset.json"
 
 
 with open(
