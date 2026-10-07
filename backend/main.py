@@ -1,4 +1,6 @@
-
+from temporal.client import get_temporal_client
+from temporal.workflows import CustomerSupportWorkflow
+import uuid
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -99,6 +101,45 @@ def chat(
 
         print(
             "CHAT ERROR:",
+            repr(e)
+        )
+
+        raise e
+
+
+        # --------------------------------------------------
+# TEMPORAL CHAT
+# --------------------------------------------------
+
+@app.post("/chat-temporal")
+async def chat_temporal(request: ChatRequest):
+
+    try:
+
+        client = await get_temporal_client()
+
+        session_id = request.session_id or str(uuid.uuid4())
+
+        result = await client.execute_workflow(
+            CustomerSupportWorkflow.run,
+            args=[
+                request.message,
+                session_id
+            ],
+            id=f"holidaybreakz-{uuid.uuid4()}",
+            task_queue="holidaybreakz-support",
+        )
+
+        return {
+            "answer": result["answer"],
+            "sources": result.get("sources", []),
+            "session_id": session_id
+        }
+
+    except Exception as e:
+
+        print(
+            "TEMPORAL CHAT ERROR:",
             repr(e)
         )
 
