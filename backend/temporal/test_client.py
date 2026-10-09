@@ -19,7 +19,7 @@ async def main():
     result = await client.execute_workflow(
         CustomerSupportWorkflow.run,
         args=[question, session_id],
-        id=f"holidaybreakz-{session_id}",
+        id=f"holidaybreakz-idempotency-test-{session_id}",
         task_queue="holidaybreakz-support",
     )
 

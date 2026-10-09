@@ -3,8 +3,13 @@ import asyncio
 from temporalio.client import Client
 from temporalio.worker import Worker
 
-from temporal.activities import run_customer_support
-from temporal.workflows import CustomerSupportWorkflow
+from .activities import (
+    retrieve_support_context,
+    generate_support_answer,
+    save_support_result,
+)
+
+from .workflows import CustomerSupportWorkflow
 
 
 async def main():
@@ -20,13 +25,13 @@ async def main():
             CustomerSupportWorkflow
         ],
         activities=[
-            run_customer_support
+            retrieve_support_context,
+            generate_support_answer,
+            save_support_result,
         ],
     )
 
-    print(
-        "Temporal Worker started."
-    )
+    print("Temporal Worker started.")
 
     await worker.run()
 
