@@ -23,11 +23,12 @@ class CustomerSupportWorkflow:
     ) -> dict:
 
         retry_policy = RetryPolicy(
-            initial_interval=timedelta(seconds=2),
-            backoff_coefficient=2.0,
-            maximum_interval=timedelta(seconds=30),
-            maximum_attempts=3,
-        )
+    initial_interval=timedelta(seconds=2),
+    backoff_coefficient=2.0,
+    maximum_interval=timedelta(seconds=30),
+    maximum_attempts=3,
+)
+
 
         context = await workflow.execute_activity(
             retrieve_support_context,
