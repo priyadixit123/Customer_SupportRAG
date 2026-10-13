@@ -108,6 +108,14 @@ def detect_section(text):
 
     text_lower = text.lower()
 
+    # Give specific policy headings priority.
+    # A chunk may contain overlapping sections.
+    if "10. booking pending policy" in text_lower:
+        return "Booking"
+
+    if "11. refund processing policy" in text_lower:
+        return "Refunds"
+
     if "seat" in text_lower:
         return "Seats"
 
@@ -117,11 +125,11 @@ def detect_section(text):
     if "meal" in text_lower:
         return "Meals"
 
-    if "refund" in text_lower:
-        return "Refunds"
-
     if "booking" in text_lower:
         return "Booking"
+
+    if "refund" in text_lower:
+        return "Refunds"
 
     if "cancellation" in text_lower:
         return "Cancellation"
@@ -132,6 +140,13 @@ def detect_section(text):
 def detect_topic(text):
 
     text_lower = text.lower()
+
+    # Specific policy headings first
+    if "10. booking pending policy" in text_lower:
+        return "booking"
+
+    if "11. refund processing policy" in text_lower:
+        return "refund"
 
     if "seat" in text_lower:
         return "seat_selection"
@@ -148,11 +163,11 @@ def detect_topic(text):
     if "cancellation protection" in text_lower:
         return "cancellation_protection"
 
-    if "refund" in text_lower:
-        return "refund"
-
     if "booking" in text_lower:
         return "booking"
+
+    if "refund" in text_lower:
+        return "refund"
 
     return "general"
 

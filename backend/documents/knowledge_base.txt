@@ -314,3 +314,20 @@ YES → Answer using retrieved information
 NO → Use fallback response
 
 The assistant must not fill missing information using assumptions.
+
+10. BOOKING PENDING POLICY
+
+When a booking is pending, confirmation may take 2–24 hours.
+
+Recommended chatbot response:
+"Your booking may still be processing. Please allow up to 24 hours for confirmation. If it remains pending after that, contact HolidayBreakz support. Do not assume that a pending booking is confirmed."
+
+11. REFUND PROCESSING POLICY
+
+For this demo, use an estimated refund processing time of 7–10 business days after the refund has been approved and initiated. Actual processing time may vary by payment method and provider.
+
+Recommended chatbot response:
+"Once your refund has been approved and initiated, it may take approximately 7–10 business days to arrive. Please contact HolidayBreakz support if it has not arrived after this period."
+
+Important:
+These are sample policies for the demo. Replace them with verified HolidayBreakz policies before presenting them as official information.

@@ -1,42 +1,33 @@
+
 [
-  {
-    "question": "What seat options are available?",
-    "expected": "relevant"
-  },
-  {
-    "question": "How can I select a seat after booking?",
-    "expected": "relevant"
-  },
-  {
-    "question": "What baggage options are available?",
-    "expected": "relevant"
-  },
-  {
-    "question": "How can I add baggage after booking?",
-    "expected": "relevant"
-  },
-  {
-    "question": "What is Refund Shield?",
-    "expected": "relevant"
-  },
-  {
-    "question": "What does Cancellation Protection cover?",
-    "expected": "relevant"
-  },
-  {
-    "question": "What is the weather on Mars today?",
-    "expected": "unknown"
-  },
-  {
-    "question": "Who is the president of the United States?",
-    "expected": "unknown"
-  },
-  {
-    "question": "What is the population of India?",
-    "expected": "unknown"
-  },
-  {
-    "question": "How do I cook pasta?",
-    "expected": "unknown"
-  }
+  {"question": "What seat options are available?", "expected": "relevant"},
+  {"question": "How can I select a seat after booking?", "expected": "relevant"},
+  {"question": "Can I choose my seat after I book my ticket?", "expected": "relevant"},
+  {"question": "I prefer an aisle seat. How can I select one?", "expected": "relevant"},
+  {"question": "Can I change my selected seat?", "expected": "relevant"},
+  {"question": "What baggage options are available?", "expected": "relevant"},
+  {"question": "How can I add baggage after booking?", "expected": "relevant"},
+  {"question": "Can I purchase extra baggage?", "expected": "relevant"},
+  {"question": "What is Refund Shield?", "expected": "relevant"},
+  {"question": "What does Cancellation Protection cover?", "expected": "relevant"},
+  {"question": "When will I receive my refund?", "expected": "relevant"},
+  {"question": "How long do refunds usually take?", "expected": "relevant"},
+  {"question": "My booking is pending. How long should I wait?", "expected": "relevant"},
+  {"question": "My booking has not been confirmed. What should I do?", "expected": "relevant"},
+  {"question": "Can I add a meal to my booking?", "expected": "relevant"},
+  {"question": "Can I change my seat after booking online?", "expected": "relevant"},
+  {"question": "How do I change my booking?", "expected": "unknown"},
+  {"question": "Can I change it after booking?", "expected": "unknown"},
+  {"question": "What are the available options?", "expected": "unknown"},
+  {"question": "Can you help me with my reservation?", "expected": "unknown"},
+  {"question": "How much does it cost?", "expected": "unknown"},
+  {"question": "Is this service available for every flight?", "expected": "unknown"},
+  {"question": "Can I change my hotel room after checking in?", "expected": "unknown"},
+  {"question": "What is the weather on Mars today?", "expected": "unknown"},
+  {"question": "Who is the president of the United States?", "expected": "unknown"},
+  {"question": "What is the population of India?", "expected": "unknown"},
+  {"question": "How do I cook pasta?", "expected": "unknown"},
+  {"question": "Write a Python program to sort a list.", "expected": "unknown"},
+  {"question": "What is the best hotel in Paris?", "expected": "unknown"},
+  {"question": "Explain how stock market trading works.", "expected": "unknown"}
 ]

@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Can I select an aisle seat?",
+    "expected_topic": "seat_selection",
+    "expected_answerable": true
+  },
+  {
+    "question": "I'd prefer a window seat. Is that possible?",
+    "expected_topic": "seat_selection",
+    "expected_answerable": true
+  },
+  {
+    "question": "How do I choose my place on the plane?",
+    "expected_topic": "seat_selection",
+    "expected_answerable": true
+  },
+  {
+    "question": "Can I change my seat after booking?",
+    "expected_topic": "seat_selection",
+    "expected_answerable": true
+  },
+  {
+    "question": "When will my refund arrive?",
+    "expected_topic": "refund",
+    "expected_answerable": true
+  },
+  {
+    "question": "My booking is still pending. How long should I wait?",
+    "expected_topic": "booking_status",
+    "expected_answerable": true
+  },
+  {
+    "question": "Can I change it after booking?",
+    "expected_topic": "ambiguous",
+    "expected_answerable": false
+  },
+  {
+    "question": "What is the best hotel in Paris?",
+    "expected_topic": "unrelated",
+    "expected_answerable": false
+  }
+]

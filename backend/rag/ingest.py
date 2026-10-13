@@ -1,30 +1,32 @@
+
 import os
-import re
 import shutil
 
 from dotenv import load_dotenv
-
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 
-
 load_dotenv()
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 CHROMA_PATH = os.getenv("CHROMA_PATH", "./chroma_db")
+DOCUMENT_PATH = "./documents/knowledge_base.txt"
 
 if not OPENROUTER_API_KEY:
     raise ValueError("OPENROUTER_API_KEY is missing in .env")
 
 
-DOCUMENT_PATH = "./documents/knowledge_base.txt"
-
-
 def detect_section(text):
-
     text_lower = text.lower()
+
+    # Explicit policy headings must be checked first.
+    if "booking pending policy" in text_lower:
+        return "Booking"
+
+    if "refund processing policy" in text_lower:
+        return "Refunds"
 
     if "seat" in text_lower:
         return "Seats"
@@ -48,8 +50,14 @@ def detect_section(text):
 
 
 def detect_topic(text):
-
     text_lower = text.lower()
+
+    # Explicit policy headings must be checked first.
+    if "booking pending policy" in text_lower:
+        return "booking"
+
+    if "refund processing policy" in text_lower:
+        return "refund"
 
     if "seat" in text_lower:
         return "seat_selection"
@@ -76,21 +84,15 @@ def detect_topic(text):
 
 
 def ingest():
-
     print("Loading knowledge base...")
 
     loader = TextLoader(
         DOCUMENT_PATH,
         encoding="utf-8"
     )
-
     documents = loader.load()
 
     print(f"Loaded {len(documents)} document(s)")
-
-    # --------------------------------
-    # Better chunking
-    # --------------------------------
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=700,
@@ -107,52 +109,33 @@ def ingest():
     )
 
     chunks = splitter.split_documents(documents)
-
     print(f"Created {len(chunks)} chunks")
 
-    # --------------------------------
-    # Add metadata
-    # --------------------------------
-
     for index, chunk in enumerate(chunks):
-
         chunk.metadata["chunk_id"] = f"kb_{index:03d}"
-
         chunk.metadata["source"] = "knowledge_base.txt"
-
         chunk.metadata["section"] = detect_section(
             chunk.page_content
         )
-
         chunk.metadata["topic"] = detect_topic(
             chunk.page_content
         )
 
-    print("Chunk metadata created.")
-    print(chunks[0].metadata)
+    print("\nPolicy chunk metadata:")
 
-    # --------------------------------
-    # Show metadata
-    # --------------------------------
-
-    for chunk in chunks[:5]:
-
-        print(
-            "\n",
-            chunk.metadata["chunk_id"],
-            "|",
-            chunk.metadata["section"],
-            "|",
-            chunk.metadata["topic"]
-        )
-
-        print(
-            chunk.page_content[:120]
-        )
-
-    # --------------------------------
-    # Create embeddings
-    # --------------------------------
+    for chunk in chunks:
+        if chunk.metadata["chunk_id"] in (
+            "kb_042", "kb_043"
+        ):
+            print(
+                chunk.metadata["chunk_id"],
+                "|",
+                chunk.metadata["section"],
+                "|",
+                chunk.metadata["topic"]
+            )
+            print(chunk.page_content[:200])
+            print("-" * 50)
 
     embeddings = OpenAIEmbeddings(
         model="text-embedding-3-small",
@@ -160,21 +143,12 @@ def ingest():
         base_url="https://openrouter.ai/api/v1",
     )
 
-    # --------------------------------
-    # Remove old Chroma database
-    # --------------------------------
-
+    # Rebuild Chroma with the updated metadata.
     if os.path.exists(CHROMA_PATH):
-
         print("\nRemoving old Chroma database...")
-
         shutil.rmtree(CHROMA_PATH)
 
-    # --------------------------------
-    # Create Chroma database
-    # --------------------------------
-
-    vectorstore = Chroma.from_documents(
+    Chroma.from_documents(
         documents=chunks,
         embedding=embeddings,
         persist_directory=CHROMA_PATH,
