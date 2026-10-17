@@ -1,3 +1,4 @@
+
 class HybridRetriever:
 
     def __init__(
@@ -6,95 +7,70 @@ class HybridRetriever:
         bm25_retriever,
         vector_search_function=None
     ):
-
         self.vector_retriever = vector_retriever
         self.bm25_retriever = bm25_retriever
         self.vector_search_function = vector_search_function
 
     def search(self, query, k=4):
 
-        # -----------------------------------------
-        # Vector Search
-        # -----------------------------------------
-
+        # Retrieve the requested number of vector candidates.
         if self.vector_search_function:
-
             vector_results = self.vector_search_function(
                 query,
                 k=k
             )
 
-        else:
-
-            vector_results = self.vector_retriever.invoke(
-                query
+        elif hasattr(self.vector_retriever, "vectorstore"):
+            vector_results = (
+                self.vector_retriever.vectorstore.similarity_search(
+                    query,
+                    k=k
+                )
             )
 
-        # -----------------------------------------
-        # BM25 Search
-        # -----------------------------------------
+        else:
+            # Safe fallback for retrievers without direct vector-store access.
+            vector_results = self.vector_retriever.invoke(query)
 
+        # Retrieve BM25 candidates.
         bm25_results = self.bm25_retriever.search(
             query,
             k=k
         )
 
-        # -----------------------------------------
-        # Reciprocal Rank Fusion
-        # -----------------------------------------
-
+        # Reciprocal Rank Fusion.
         scores = {}
         documents = {}
-
         rrf_k = 60
 
-        # Vector results
-
-        for rank, doc in enumerate(
-            vector_results,
-            start=1
-        ):
-
+        for rank, doc in enumerate(vector_results, start=1):
             doc_id = doc.metadata.get(
                 "chunk_id",
                 doc.page_content
             )
 
             documents[doc_id] = doc
-
             scores[doc_id] = (
                 scores.get(doc_id, 0)
-                + (1 / (rrf_k + rank))
+                + 1 / (rrf_k + rank)
             )
 
-        # BM25 results
-
-        for rank, item in enumerate(
-            bm25_results,
-            start=1
-        ):
-
+        for rank, item in enumerate(bm25_results, start=1):
             doc = item["document"]
-
             doc_id = doc.metadata.get(
                 "chunk_id",
                 doc.page_content
             )
 
             documents[doc_id] = doc
-
             scores[doc_id] = (
                 scores.get(doc_id, 0)
-                + (1 / (rrf_k + rank))
+                + 1 / (rrf_k + rank)
             )
-
-        # -----------------------------------------
-        # Sort by RRF score
-        # -----------------------------------------
 
         ranked_documents = sorted(
             documents.items(),
-            key=lambda x: scores[x[0]],
+            key=lambda item: scores[item[0]],
             reverse=True
         )
 

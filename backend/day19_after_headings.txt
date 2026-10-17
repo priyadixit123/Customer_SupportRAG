@@ -1,0 +1,2302 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loaded chunks for BM25.
+
+======================================================================
+VECTOR SEARCH
+======================================================================
+
+Question:
+What does a seat ancillary include?
+
+Relevant:
+['kb_001', 'kb_002']
+
+Retrieved:
+['kb_001', 'kb_002', 'kb_003', 'kb_000']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does seat selection not automatically include?
+
+Relevant:
+['kb_003']
+
+Retrieved:
+['kb_003', 'kb_002', 'kb_001', 'kb_004']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat while booking?
+
+Relevant:
+['kb_004']
+
+Retrieved:
+['kb_004', 'kb_005', 'kb_006', 'kb_021']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat after booking?
+
+Relevant:
+['kb_005']
+
+Retrieved:
+['kb_005', 'kb_004', 'kb_021', 'kb_006']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I change or remove my seat?
+
+Relevant:
+['kb_006']
+
+Retrieved:
+['kb_006', 'kb_005', 'kb_004', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a window seat cost?
+
+Relevant:
+['kb_008']
+
+Retrieved:
+['kb_008', 'kb_004', 'kb_002', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary include?
+
+Relevant:
+['kb_009', 'kb_010']
+
+Retrieved:
+['kb_009', 'kb_010', 'kb_011', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary not automatically include?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_009', 'kb_011', 'kb_003', 'kb_010']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How can I add baggage while booking?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_012', 'kb_011', 'kb_013', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How can I add baggage after booking?
+
+Relevant:
+['kb_012']
+
+Retrieved:
+['kb_012', 'kb_011', 'kb_013', 'kb_021']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can baggage be removed and refunded?
+
+Relevant:
+['kb_013']
+
+Retrieved:
+['kb_013', 'kb_011', 'kb_014', 'kb_012']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is the baggage policy for connecting flights?
+
+Relevant:
+['kb_014', 'kb_015']
+
+Retrieved:
+['kb_014', 'kb_013', 'kb_011', 'kb_012']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a checked bag cost?
+
+Relevant:
+['kb_016']
+
+Retrieved:
+['kb_014', 'kb_016', 'kb_015', 'kb_011']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What does meal ancillary include?
+
+Relevant:
+['kb_017', 'kb_018']
+
+Retrieved:
+['kb_017', 'kb_001', 'kb_009', 'kb_000']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does a meal request not automatically include?
+
+Relevant:
+['kb_019']
+
+Retrieved:
+['kb_019', 'kb_017', 'kb_023', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal while booking?
+
+Relevant:
+['kb_020']
+
+Retrieved:
+['kb_020', 'kb_021', 'kb_018', 'kb_012']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal after booking?
+
+Relevant:
+['kb_021']
+
+Retrieved:
+['kb_021', 'kb_020', 'kb_012', 'kb_022']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I change or remove a meal?
+
+Relevant:
+['kb_022']
+
+Retrieved:
+['kb_022', 'kb_021', 'kb_006', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a pre-ordered meal cost?
+
+Relevant:
+['kb_024']
+
+Retrieved:
+['kb_024', 'kb_018', 'kb_020', 'kb_021']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is Cancellation Protection?
+
+Relevant:
+['kb_025']
+
+Retrieved:
+['kb_025', 'kb_027', 'kb_029', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Cancellation Protection include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_025', 'kb_026', 'kb_027', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What does Cancellation Protection not automatically include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_026', 'kb_025', 'kb_029', 'kb_027']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I buy Cancellation Protection?
+
+Relevant:
+['kb_027']
+
+Retrieved:
+['kb_027', 'kb_025', 'kb_030', 'kb_029']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Cancellation Protection be added after booking?
+
+Relevant:
+['kb_028']
+
+Retrieved:
+['kb_027', 'kb_025', 'kb_028', 'kb_029']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.33
+
+Question:
+How can Cancellation Protection be removed?
+
+Relevant:
+['kb_029']
+
+Retrieved:
+['kb_029', 'kb_025', 'kb_027', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How do I use Cancellation Protection?
+
+Relevant:
+['kb_030']
+
+Retrieved:
+['kb_025', 'kb_027', 'kb_029', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.25
+
+Question:
+What is Refund Shield?
+
+Relevant:
+['kb_031']
+
+Retrieved:
+['kb_031', 'kb_032', 'kb_033', 'kb_034']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_033', 'kb_036']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield not automatically include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_033', 'kb_034']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add Refund Shield?
+
+Relevant:
+['kb_033']
+
+Retrieved:
+['kb_033', 'kb_034', 'kb_031', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Refund Shield be added after booking?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_033', 'kb_031', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Refund Shield be removed?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_033', 'kb_031', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I request a Refund Shield refund?
+
+Relevant:
+['kb_035']
+
+Retrieved:
+['kb_033', 'kb_032', 'kb_031', 'kb_034']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What reasons may be covered by Refund Shield?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_033', 'kb_036']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.25
+
+Question:
+How much does Refund Shield cost?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_031', 'kb_033', 'kb_032', 'kb_036']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.25
+
+Question:
+What should the chatbot check before giving a price?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_039', 'kb_040', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check when an ancillary is confirmed?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_000', 'kb_039', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I add an ancillary after booking?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_028', 'kb_001', 'kb_009', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.25
+
+Question:
+Will I get a refund for an ancillary?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_000', 'kb_009', 'kb_003', 'kb_001']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What should the chatbot do for a multi-airline itinerary?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_039', 'kb_040', 'kb_037', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check for a protection claim?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_039', 'kb_029', 'kb_037', 'kb_036']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot do when information is not available?
+
+Relevant:
+['kb_040', 'kb_041']
+
+Retrieved:
+['kb_037', 'kb_039', 'kb_040', 'kb_038']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.33
+
+======================================================================
+AVERAGE - VECTOR SEARCH
+======================================================================
+Recall@4: 0.917
+Precision@4: 0.250
+Hit Rate@4: 0.952
+MRR: 0.802
+
+======================================================================
+BM25 SEARCH
+======================================================================
+
+Question:
+What does a seat ancillary include?
+
+Relevant:
+['kb_001', 'kb_002']
+
+Retrieved:
+['kb_001', 'kb_003', 'kb_017', 'kb_032']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does seat selection not automatically include?
+
+Relevant:
+['kb_003']
+
+Retrieved:
+['kb_003', 'kb_001', 'kb_002', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat while booking?
+
+Relevant:
+['kb_004']
+
+Retrieved:
+['kb_004', 'kb_038', 'kb_020', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat after booking?
+
+Relevant:
+['kb_005']
+
+Retrieved:
+['kb_004', 'kb_038', 'kb_001', 'kb_005']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.25
+
+Question:
+Can I change or remove my seat?
+
+Relevant:
+['kb_006']
+
+Retrieved:
+['kb_038', 'kb_012', 'kb_005', 'kb_029']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+How much does a window seat cost?
+
+Relevant:
+['kb_008']
+
+Retrieved:
+['kb_001', 'kb_004', 'kb_008', 'kb_006']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.33
+
+Question:
+What does baggage ancillary include?
+
+Relevant:
+['kb_009', 'kb_010']
+
+Retrieved:
+['kb_009', 'kb_001', 'kb_032', 'kb_017']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary not automatically include?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_009', 'kb_032', 'kb_026', 'kb_013']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+How can I add baggage while booking?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_038', 'kb_011', 'kb_020', 'kb_012']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How can I add baggage after booking?
+
+Relevant:
+['kb_012']
+
+Retrieved:
+['kb_038', 'kb_012', 'kb_011', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+Can baggage be removed and refunded?
+
+Relevant:
+['kb_013']
+
+Retrieved:
+['kb_022', 'kb_012', 'kb_009', 'kb_015']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What is the baggage policy for connecting flights?
+
+Relevant:
+['kb_014', 'kb_015']
+
+Retrieved:
+['kb_014', 'kb_011', 'kb_009', 'kb_000']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a checked bag cost?
+
+Relevant:
+['kb_016']
+
+Retrieved:
+['kb_009', 'kb_016', 'kb_014', 'kb_006']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What does meal ancillary include?
+
+Relevant:
+['kb_017', 'kb_018']
+
+Retrieved:
+['kb_017', 'kb_001', 'kb_032', 'kb_009']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does a meal request not automatically include?
+
+Relevant:
+['kb_019']
+
+Retrieved:
+['kb_017', 'kb_019', 'kb_001', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How can I add a meal while booking?
+
+Relevant:
+['kb_020']
+
+Retrieved:
+['kb_020', 'kb_038', 'kb_011', 'kb_004']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal after booking?
+
+Relevant:
+['kb_021']
+
+Retrieved:
+['kb_038', 'kb_020', 'kb_011', 'kb_022']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+Can I change or remove a meal?
+
+Relevant:
+['kb_022']
+
+Retrieved:
+['kb_038', 'kb_006', 'kb_007', 'kb_029']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+How much does a pre-ordered meal cost?
+
+Relevant:
+['kb_024']
+
+Retrieved:
+['kb_024', 'kb_019', 'kb_017', 'kb_022']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is Cancellation Protection?
+
+Relevant:
+['kb_025']
+
+Retrieved:
+['kb_025', 'kb_027', 'kb_026', 'kb_031']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Cancellation Protection include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_026', 'kb_025', 'kb_032', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Cancellation Protection not automatically include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_026', 'kb_032', 'kb_025', 'kb_019']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I buy Cancellation Protection?
+
+Relevant:
+['kb_027']
+
+Retrieved:
+['kb_027', 'kb_038', 'kb_025', 'kb_029']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Cancellation Protection be added after booking?
+
+Relevant:
+['kb_028']
+
+Retrieved:
+['kb_028', 'kb_029', 'kb_034', 'kb_027']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Cancellation Protection be removed?
+
+Relevant:
+['kb_029']
+
+Retrieved:
+['kb_029', 'kb_027', 'kb_030', 'kb_025']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How do I use Cancellation Protection?
+
+Relevant:
+['kb_030']
+
+Retrieved:
+['kb_027', 'kb_038', 'kb_025', 'kb_000']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What is Refund Shield?
+
+Relevant:
+['kb_031']
+
+Retrieved:
+['kb_031', 'kb_033', 'kb_025', 'kb_009']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_026', 'kb_001', 'kb_009']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield not automatically include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_026', 'kb_019', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add Refund Shield?
+
+Relevant:
+['kb_033']
+
+Retrieved:
+['kb_038', 'kb_033', 'kb_031', 'kb_027']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+Can Refund Shield be added after booking?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_028', 'kb_038', 'kb_036']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Refund Shield be removed?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_036', 'kb_000', 'kb_013']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I request a Refund Shield refund?
+
+Relevant:
+['kb_035']
+
+Retrieved:
+['kb_038', 'kb_035', 'kb_031', 'kb_034']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What reasons may be covered by Refund Shield?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_026', 'kb_035', 'kb_031', 'kb_032']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+How much does Refund Shield cost?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_034', 'kb_032', 'kb_036', 'kb_000']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.33
+
+Question:
+What should the chatbot check before giving a price?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_013', 'kb_034', 'kb_004', 'kb_020']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What should the chatbot check when an ancillary is confirmed?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_009', 'kb_001', 'kb_013']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I add an ancillary after booking?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_038', 'kb_020', 'kb_012', 'kb_011']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Will I get a refund for an ancillary?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_038', 'kb_017', 'kb_001', 'kb_004']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot do for a multi-airline itinerary?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_042', 'kb_014', 'kb_032', 'kb_017']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What should the chatbot check for a protection claim?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_029', 'kb_028', 'kb_026', 'kb_031']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What should the chatbot do when information is not available?
+
+Relevant:
+['kb_040', 'kb_041']
+
+Retrieved:
+['kb_041', 'kb_042', 'kb_037', 'kb_040']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 1.00
+
+======================================================================
+AVERAGE - BM25 SEARCH
+======================================================================
+Recall@4: 0.714
+Precision@4: 0.196
+Hit Rate@4: 0.762
+MRR: 0.641
+
+======================================================================
+HYBRID RRF
+======================================================================
+
+Question:
+What does a seat ancillary include?
+
+Relevant:
+['kb_001', 'kb_002']
+
+Retrieved:
+['kb_001', 'kb_003', 'kb_002', 'kb_017']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does seat selection not automatically include?
+
+Relevant:
+['kb_003']
+
+Retrieved:
+['kb_003', 'kb_002', 'kb_001', 'kb_004']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat while booking?
+
+Relevant:
+['kb_004']
+
+Retrieved:
+['kb_004', 'kb_005', 'kb_038', 'kb_006']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat after booking?
+
+Relevant:
+['kb_005']
+
+Retrieved:
+['kb_004', 'kb_005', 'kb_038', 'kb_021']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+Can I change or remove my seat?
+
+Relevant:
+['kb_006']
+
+Retrieved:
+['kb_005', 'kb_006', 'kb_038', 'kb_012']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How much does a window seat cost?
+
+Relevant:
+['kb_008']
+
+Retrieved:
+['kb_008', 'kb_004', 'kb_001', 'kb_002']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary include?
+
+Relevant:
+['kb_009', 'kb_010']
+
+Retrieved:
+['kb_009', 'kb_001', 'kb_010', 'kb_011']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary not automatically include?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_009', 'kb_011', 'kb_032', 'kb_003']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How can I add baggage while booking?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_011', 'kb_012', 'kb_020', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add baggage after booking?
+
+Relevant:
+['kb_012']
+
+Retrieved:
+['kb_012', 'kb_011', 'kb_038', 'kb_013']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can baggage be removed and refunded?
+
+Relevant:
+['kb_013']
+
+Retrieved:
+['kb_012', 'kb_013', 'kb_022', 'kb_011']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What is the baggage policy for connecting flights?
+
+Relevant:
+['kb_014', 'kb_015']
+
+Retrieved:
+['kb_014', 'kb_011', 'kb_013', 'kb_009']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a checked bag cost?
+
+Relevant:
+['kb_016']
+
+Retrieved:
+['kb_014', 'kb_016', 'kb_009', 'kb_015']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What does meal ancillary include?
+
+Relevant:
+['kb_017', 'kb_018']
+
+Retrieved:
+['kb_017', 'kb_001', 'kb_009', 'kb_032']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does a meal request not automatically include?
+
+Relevant:
+['kb_019']
+
+Retrieved:
+['kb_019', 'kb_017', 'kb_023', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal while booking?
+
+Relevant:
+['kb_020']
+
+Retrieved:
+['kb_020', 'kb_021', 'kb_038', 'kb_018']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal after booking?
+
+Relevant:
+['kb_021']
+
+Retrieved:
+['kb_020', 'kb_022', 'kb_021', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.33
+
+Question:
+Can I change or remove a meal?
+
+Relevant:
+['kb_022']
+
+Retrieved:
+['kb_006', 'kb_022', 'kb_038', 'kb_021']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How much does a pre-ordered meal cost?
+
+Relevant:
+['kb_024']
+
+Retrieved:
+['kb_024', 'kb_018', 'kb_019', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is Cancellation Protection?
+
+Relevant:
+['kb_025']
+
+Retrieved:
+['kb_025', 'kb_027', 'kb_029', 'kb_026']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Cancellation Protection include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_025', 'kb_026', 'kb_030', 'kb_027']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What does Cancellation Protection not automatically include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_026', 'kb_025', 'kb_032', 'kb_029']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I buy Cancellation Protection?
+
+Relevant:
+['kb_027']
+
+Retrieved:
+['kb_027', 'kb_025', 'kb_029', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Cancellation Protection be added after booking?
+
+Relevant:
+['kb_028']
+
+Retrieved:
+['kb_028', 'kb_027', 'kb_029', 'kb_025']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Cancellation Protection be removed?
+
+Relevant:
+['kb_029']
+
+Retrieved:
+['kb_029', 'kb_027', 'kb_025', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How do I use Cancellation Protection?
+
+Relevant:
+['kb_030']
+
+Retrieved:
+['kb_027', 'kb_025', 'kb_038', 'kb_029']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What is Refund Shield?
+
+Relevant:
+['kb_031']
+
+Retrieved:
+['kb_031', 'kb_033', 'kb_032', 'kb_025']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_026', 'kb_033']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield not automatically include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_026', 'kb_033']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add Refund Shield?
+
+Relevant:
+['kb_033']
+
+Retrieved:
+['kb_033', 'kb_031', 'kb_038', 'kb_034']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Refund Shield be added after booking?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_033', 'kb_028', 'kb_031']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Refund Shield be removed?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_033', 'kb_036', 'kb_031']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I request a Refund Shield refund?
+
+Relevant:
+['kb_035']
+
+Retrieved:
+['kb_031', 'kb_034', 'kb_033', 'kb_038']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+What reasons may be covered by Refund Shield?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_026', 'kb_035']
+Recall@4: 0.00
+Precision@4: 0.00
+Hit Rate@4: 0.00
+MRR: 0.00
+
+Question:
+How much does Refund Shield cost?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_032', 'kb_036', 'kb_031', 'kb_034']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What should the chatbot check before giving a price?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_013', 'kb_039', 'kb_034']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check when an ancillary is confirmed?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_000', 'kb_009', 'kb_039']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I add an ancillary after booking?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_038', 'kb_028', 'kb_001', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Will I get a refund for an ancillary?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_001', 'kb_000', 'kb_038', 'kb_009']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.33
+
+Question:
+What should the chatbot do for a multi-airline itinerary?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_039', 'kb_042', 'kb_040', 'kb_014']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check for a protection claim?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_029', 'kb_039', 'kb_028', 'kb_037']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+What should the chatbot do when information is not available?
+
+Relevant:
+['kb_040', 'kb_041']
+
+Retrieved:
+['kb_037', 'kb_040', 'kb_041', 'kb_039']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 0.50
+
+======================================================================
+AVERAGE - HYBRID RRF
+======================================================================
+Recall@4: 0.905
+Precision@4: 0.250
+Hit Rate@4: 0.929
+MRR: 0.778
+
+======================================================================
+HYBRID + RERANKER
+======================================================================
+
+======================================================================
+DEBUG: HYBRID CANDIDATES BEFORE RERANKING
+======================================================================
+Candidates returned: 15
+Expected relevant IDs: ['kb_001', 'kb_002']
+
+Candidate 1 | ID: kb_001 | Hybrid score: 0.03278688524590164
+1. SEAT ANCILLARY Seat selection or seat preference added to a flight booking. What is a Seat Ancillary? A seat ancillary is an optional service that allows a passenger to request or select a preferred seat for a flight. Examples include a window sea
+
+Candidate 2 | ID: kb_003 | Hybrid score: 0.03200204813108039
+Seat Ancillary - What it does not automatically include • A guaranteed seat solely because a preference was submitted. • A guaranteed upgrade to a higher cabin. • Automatic seat selection for every flight/airline in a multi-carrier itinerary. • Free 
+
+Candidate 3 | ID: kb_017 | Hybrid score: 0.031024531024531024
+3. MEAL ANCILLARY Standard or special meal preference requested for an eligible flight. What is a Meal Ancillary? A meal ancillary allows a passenger to purchase a meal or request a special meal for a flight where the airline offers meal service. Spe
+
+Candidate 4 | ID: kb_002 | Hybrid score: 0.030834914611005692
+Seat Ancillary - What it may include: • Window, aisle or middle-seat preference. • Specific seat number when seat-map selection is supported. • Standard, preferred, front-cabin or extra-legroom seats where offered. • Seat selection for one or more el
+
+Candidate 5 | ID: kb_009 | Hybrid score: 0.03076923076923077
+What is a Baggage Ancillary? A baggage ancillary is an optional baggage service purchased in addition to the baggage already included in the passenger's fare. It can include an additional checked bag, extra weight, or another baggage option offered b
+
+Candidate 6 | ID: kb_006 | Hybrid score: 0.03007688828584351
+How can a seat be changed or removed? A passenger may be able to change a seat through Manage Booking or directly with the airline, subject to seat availability and the airline's rules. If the customer wants the seat ancillary removed, the chatbot sh
+
+Candidate 7 | ID: kb_008 | Hybrid score: 0.02919863597612958
+Market-wise Seat Price (Per Passenger, Per Flight Segment): Seat Type	US Market ($ USD)	UK Market (£ GBP)	Canada Market (C$ CAD) Window Seat	$25	£15	C$30 Aisle Seat	$25	£15	C$30 Middle Seat	$20	£14	C$25  Assignment benchmark price: use these as fixed
+
+Candidate 8 | ID: kb_007 | Hybrid score: 0.028577260665441927
+Charges, refund and important conditions: •	Seat prices can vary by airline, route, cabin, seat type and flight segment. •	The supplied policy states that special seat requests are requests only and a particular seat is not guaranteed. •	Any service 
+
+Candidate 9 | ID: kb_004 | Hybrid score: 0.02857142857142857
+How can a passenger get a seat while booking? 1. Select the flight and enter passenger details. 2. Open the Seat Selection or Add-ons section, if available. 3. Choose a seat from the seat map or select a preference such as window or aisle. 4. Review 
+
+Candidate 10 | ID: kb_005 | Hybrid score: 0.0273972602739726
+How can a passenger get a seat after the ticket is already booked? 1. Open Manage Booking / My Trips on the booking website or airline website. 2. Enter the booking reference/PNR and passenger surname. 3. Open Seat Selection and choose an available s
+
+Candidate 11 | ID: kb_000 | Hybrid score: 0.015625
+Ancillaries Knowledge Base Seats • Baggage • Meals • Cancellation Protection • Refund Shield   How to use this document: Each ancillary is explained as a customer-facing knowledge module. The chatbot should use the airline/booking provider's live ter
+
+Candidate 12 | ID: kb_032 | Hybrid score: 0.015625
+Refund Shield - What does it include / not include? What it may include: • Refund consideration for qualifying reasons listed in the Refundable Terms • A defined online refund-request/claim process. • Assessment of supporting evidence where required.
+
+Candidate 13 | ID: kb_026 | Hybrid score: 0.014925373134328358
+Cancellation Protection - What does it include / not include? What it may include:	 • Eligible cancellation costs or penalties defined by the purchased plan. • Covered reasons specifically listed in the product terms. • A claim/reimbursement process 
+
+Candidate 14 | ID: kb_024 | Hybrid score: 0.014084507042253521
+Market-wise Meal Price (Per Passenger, Per Flight Segment)  Ancillary Pre-ordered Meal:	US Market $12	 UK Market £12	 Canada Market C$15 Assignment benchmark price for a standard pre-ordered meal. Special meals may be complimentary on some full-servi
+
+Candidate 15 | ID: kb_010 | Hybrid score: 0.013888888888888888
+• Additional weight where the airline sells weight-based baggage. • Baggage allowance attached to a specific passenger/segment. • Airline-specific excess baggage options.
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights:   1%|          | 1/105 [00:00<00:13,  7.82it/s]Loading weights:  18%|#8        | 19/105 [00:00<00:00, 92.32it/s]Loading weights:  41%|####      | 43/105 [00:00<00:00, 152.89it/s]Loading weights:  85%|########4 | 89/105 [00:00<00:00, 266.16it/s]Loading weights: 100%|##########| 105/105 [00:00<00:00, 219.89it/s]
+
+======================================================================
+DEBUG: FINAL RERANKER RESULTS
+======================================================================
+
+Rank 1 | ID: kb_001 | Reranker score: 8.9209
+1. SEAT ANCILLARY Seat selection or seat preference added to a flight booking. What is a Seat Ancillary? A seat ancillary is an optional service that allows a passenger to request or select a preferred seat for a flight. Examples include a window sea
+
+Rank 2 | ID: kb_002 | Reranker score: 8.7449
+Seat Ancillary - What it may include: • Window, aisle or middle-seat preference. • Specific seat number when seat-map selection is supported. • Standard, preferred, front-cabin or extra-legroom seats where offered. • Seat selection for one or more el
+
+Rank 3 | ID: kb_003 | Reranker score: 7.6902
+Seat Ancillary - What it does not automatically include • A guaranteed seat solely because a preference was submitted. • A guaranteed upgrade to a higher cabin. • Automatic seat selection for every flight/airline in a multi-carrier itinerary. • Free 
+
+Rank 4 | ID: kb_009 | Reranker score: 4.4408
+What is a Baggage Ancillary? A baggage ancillary is an optional baggage service purchased in addition to the baggage already included in the passenger's fare. It can include an additional checked bag, extra weight, or another baggage option offered b
+
+Question:
+What does a seat ancillary include?
+
+Relevant:
+['kb_001', 'kb_002']
+
+Retrieved:
+['kb_001', 'kb_002', 'kb_003', 'kb_009']
+Recall@4: 1.00
+Precision@4: 0.50
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does seat selection not automatically include?
+
+Relevant:
+['kb_003']
+
+Retrieved:
+['kb_003', 'kb_001', 'kb_026', 'kb_002']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat while booking?
+
+Relevant:
+['kb_004']
+
+Retrieved:
+['kb_004', 'kb_005', 'kb_020', 'kb_001']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I select a seat after booking?
+
+Relevant:
+['kb_005']
+
+Retrieved:
+['kb_005', 'kb_004', 'kb_001', 'kb_012']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I change or remove my seat?
+
+Relevant:
+['kb_006']
+
+Retrieved:
+['kb_006', 'kb_022', 'kb_007', 'kb_013']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a window seat cost?
+
+Relevant:
+['kb_008']
+
+Retrieved:
+['kb_008', 'kb_004', 'kb_016', 'kb_002']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary include?
+
+Relevant:
+['kb_009', 'kb_010']
+
+Retrieved:
+['kb_009', 'kb_017', 'kb_001', 'kb_002']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does baggage ancillary not automatically include?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_009', 'kb_011', 'kb_003', 'kb_026']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How can I add baggage while booking?
+
+Relevant:
+['kb_011']
+
+Retrieved:
+['kb_011', 'kb_012', 'kb_020', 'kb_013']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add baggage after booking?
+
+Relevant:
+['kb_012']
+
+Retrieved:
+['kb_012', 'kb_011', 'kb_021', 'kb_013']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can baggage be removed and refunded?
+
+Relevant:
+['kb_013']
+
+Retrieved:
+['kb_013', 'kb_014', 'kb_040', 'kb_006']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is the baggage policy for connecting flights?
+
+Relevant:
+['kb_014', 'kb_015']
+
+Retrieved:
+['kb_014', 'kb_013', 'kb_011', 'kb_009']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a checked bag cost?
+
+Relevant:
+['kb_016']
+
+Retrieved:
+['kb_016', 'kb_014', 'kb_015', 'kb_009']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does meal ancillary include?
+
+Relevant:
+['kb_017', 'kb_018']
+
+Retrieved:
+['kb_017', 'kb_009', 'kb_001', 'kb_002']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does a meal request not automatically include?
+
+Relevant:
+['kb_019']
+
+Retrieved:
+['kb_019', 'kb_017', 'kb_023', 'kb_026']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal while booking?
+
+Relevant:
+['kb_020']
+
+Retrieved:
+['kb_020', 'kb_021', 'kb_004', 'kb_011']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add a meal after booking?
+
+Relevant:
+['kb_021']
+
+Retrieved:
+['kb_021', 'kb_020', 'kb_012', 'kb_022']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I change or remove a meal?
+
+Relevant:
+['kb_022']
+
+Retrieved:
+['kb_022', 'kb_006', 'kb_019', 'kb_021']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How much does a pre-ordered meal cost?
+
+Relevant:
+['kb_024']
+
+Retrieved:
+['kb_024', 'kb_018', 'kb_023', 'kb_020']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is Cancellation Protection?
+
+Relevant:
+['kb_025']
+
+Retrieved:
+['kb_025', 'kb_026', 'kb_031', 'kb_030']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Cancellation Protection include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_026', 'kb_025', 'kb_031', 'kb_027']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Cancellation Protection not automatically include?
+
+Relevant:
+['kb_026']
+
+Retrieved:
+['kb_026', 'kb_032', 'kb_025', 'kb_019']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I buy Cancellation Protection?
+
+Relevant:
+['kb_027']
+
+Retrieved:
+['kb_027', 'kb_025', 'kb_030', 'kb_029']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Cancellation Protection be added after booking?
+
+Relevant:
+['kb_028']
+
+Retrieved:
+['kb_028', 'kb_034', 'kb_025', 'kb_027']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Cancellation Protection be removed?
+
+Relevant:
+['kb_029']
+
+Retrieved:
+['kb_029', 'kb_027', 'kb_034', 'kb_025']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How do I use Cancellation Protection?
+
+Relevant:
+['kb_030']
+
+Retrieved:
+['kb_030', 'kb_027', 'kb_025', 'kb_029']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What is Refund Shield?
+
+Relevant:
+['kb_031']
+
+Retrieved:
+['kb_031', 'kb_032', 'kb_036', 'kb_033']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_031', 'kb_036', 'kb_033']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What does Refund Shield not automatically include?
+
+Relevant:
+['kb_032']
+
+Retrieved:
+['kb_032', 'kb_026', 'kb_019', 'kb_031']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I add Refund Shield?
+
+Relevant:
+['kb_033']
+
+Retrieved:
+['kb_033', 'kb_034', 'kb_031', 'kb_035']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can Refund Shield be added after booking?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_033', 'kb_031', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can Refund Shield be removed?
+
+Relevant:
+['kb_034']
+
+Retrieved:
+['kb_034', 'kb_033', 'kb_029', 'kb_035']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+How can I request a Refund Shield refund?
+
+Relevant:
+['kb_035']
+
+Retrieved:
+['kb_035', 'kb_033', 'kb_031', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What reasons may be covered by Refund Shield?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_032', 'kb_036', 'kb_035', 'kb_031']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+Question:
+How much does Refund Shield cost?
+
+Relevant:
+['kb_036']
+
+Retrieved:
+['kb_036', 'kb_031', 'kb_032', 'kb_033']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check before giving a price?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_040', 'kb_039', 'kb_038']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check when an ancillary is confirmed?
+
+Relevant:
+['kb_037']
+
+Retrieved:
+['kb_037', 'kb_038', 'kb_039', 'kb_006']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Can I add an ancillary after booking?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_038', 'kb_028', 'kb_001', 'kb_012']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+Will I get a refund for an ancillary?
+
+Relevant:
+['kb_038']
+
+Retrieved:
+['kb_038', 'kb_006', 'kb_000', 'kb_032']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot do for a multi-airline itinerary?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_039', 'kb_040', 'kb_038', 'kb_037']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot check for a protection claim?
+
+Relevant:
+['kb_039']
+
+Retrieved:
+['kb_039', 'kb_029', 'kb_038', 'kb_040']
+Recall@4: 1.00
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 1.00
+
+Question:
+What should the chatbot do when information is not available?
+
+Relevant:
+['kb_040', 'kb_041']
+
+Retrieved:
+['kb_038', 'kb_040', 'kb_021', 'kb_023']
+Recall@4: 0.50
+Precision@4: 0.25
+Hit Rate@4: 1.00
+MRR: 0.50
+
+======================================================================
+AVERAGE - HYBRID + RERANKER
+======================================================================
+Recall@4: 0.952
+Precision@4: 0.256
+Hit Rate@4: 1.000
+MRR: 0.964

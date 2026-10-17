@@ -12,16 +12,16 @@ Each ancillary is explained as a customer-facing knowledge module. The chatbot s
 Seat selection or seat preference added to a flight booking.
 What is a Seat Ancillary?
 A seat ancillary is an optional service that allows a passenger to request or select a preferred seat for a flight. Examples include a window seat, aisle seat, front-row seat, extra-legroom seat or another available seat shown by the airline. A seat request should not be treated as guaranteed unless the airline has actually confirmed the seat assignment.
-What does it include / not include?
+Seat Ancillary - What does it include / not include?
 
-What it may include: 
+Seat Ancillary - What it may include:
 • Window, aisle or middle-seat preference.
 • Specific seat number when seat-map selection is supported.
 • Standard, preferred, front-cabin or extra-legroom seats where offered.
 • Seat selection for one or more eligible flight segments.
 • Airline confirmation when the connected booking system provides it.	
 
-What it does not automatically include
+Seat Ancillary - What it does not automatically include
 • A guaranteed seat solely because a preference was submitted.
 • A guaranteed upgrade to a higher cabin.
 • Automatic seat selection for every flight/airline in a multi-carrier itinerary.
@@ -66,7 +66,7 @@ Additional baggage allowance or baggage-related service added to a flight.
 
 What is a Baggage Ancillary?
 A baggage ancillary is an optional baggage service purchased in addition to the baggage already included in the passenger's fare. It can include an additional checked bag, extra weight, or another baggage option offered by the airline. The exact free allowance and additional-baggage charge depend on the airline, route, cabin, fare type, bag size and bag weight.
-What does it include / not include?
+Baggage Ancillary - What does it include / not include?
 What it may include:	
 • Prepaid additional checked baggage where offered.
 • Extra baggage pieces above the included allowance.
@@ -119,7 +119,7 @@ Assignment benchmark price: carry-on is shown as $0/£0/C$0 when included within
 Standard or special meal preference requested for an eligible flight.
 What is a Meal Ancillary?
 A meal ancillary allows a passenger to purchase a meal or request a special meal for a flight where the airline offers meal service. Special meal requests may include vegetarian, vegan, child, diabetic, gluten-free, halal, kosher or other airline-supported options. The supplied policy makes clear that a meal request is not guaranteed.
-What does it include / not include?
+Meal Ancillary - What does it include / not include?
 What it may include:
 • Standard paid meal where the airline sells onboard meals.
 • Special dietary meal request where supported.
@@ -168,7 +168,7 @@ Optional protection that may reduce eligible financial loss when a passenger can
 What is Cancellation Protection?
 Cancellation Protection is an optional paid add-on offered by some airlines or travel platforms. Its purpose is to provide additional cancellation benefits beyond the normal fare rules. There is no single universal Cancellation Protection product: some products cover only specified events such as illness, while others reimburse eligible cancellation penalties up to a limit. Therefore, the chatbot must retrieve the exact terms attached to the customer's booking before stating what is covered.
 
-What does it include / not include?
+Cancellation Protection - What does it include / not include?
 What it may include:	
 • Eligible cancellation costs or penalties defined by the purchased plan.
 • Covered reasons specifically listed in the product terms.
@@ -216,7 +216,7 @@ Optional refund-protection service under which eligible cancellations may qualif
 What is Refund Shield?
 Refund Shield, sometimes presented as a Refundable Booking upgrade, is an optional protection product offered by certain travel sellers/providers. It is separate from the airline's standard fare refund rules. Depending on the provider, the customer may submit a refund request when a listed qualifying event prevents travel. Some providers expressly describe Refund Shield as a cancellation protection service rather than travel insurance.
 
-What does it include / not include?
+Refund Shield - What does it include / not include?
 What it may include:
 • Refund consideration for qualifying reasons listed in the Refundable Terms
 • A defined online refund-request/claim process.
